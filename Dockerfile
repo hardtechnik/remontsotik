@@ -24,3 +24,4 @@ RUN set -x \
     && find /usr/src/app -type d -name __pycache__ -exec rm -rf '{}' + \
     && apt-get purge -y --auto-remove $buildDeps
 
+CMD uwsgi --socket 0.0.0.0:${PORT} --wsgi-file ./phonerepair/wsgi.py
