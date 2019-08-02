@@ -1,0 +1,23 @@
+dist: xenial
+language: minimal
+
+addons:
+  apt:
+    packages:
+      - awscli
+
+services:
+  - docker
+
+before_install:
+  - bash docker_build
+
+script:
+  - docker run --rm $IMAGE pytest
+  - docker run --rm $IMAGE ./manage.py collectstatic
+
+deploy:
+  provider: script
+  script: bash docker_deploy
+  on:
+    branch: master

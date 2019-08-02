@@ -1,0 +1,18 @@
+#!/bin/bash
+
+STATIC_DIR=$PWD/static
+
+mkdir -p ${STATIC_DIR}
+docker run --rm -v ${STATIC_DIR}:/static ${IMAGE} ./manage.py collectstatic --noinput
+
+echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+docker push ${IMAGE}
+
+mkdir ~/.aws/
+cat > ~/.aws/credentials < END
+[default]
+aws_access_key_id = ${AWS_ACCESS_KEY}
+aws_secret_access_key = ${AWS_SECRET_KEY}
+END
+
+aws --endpoint-url=https://storage.yandexcloud.net s3 cp --recursive ${STATIC_DIR} ${STATIC_BUCKET}
