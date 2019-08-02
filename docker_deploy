@@ -1,10 +1,11 @@
 #!/bin/bash
+set -e
+shopt -s expand_aliases
+alias remote_docker="docker --tlsverify --tlscacert=keys/ca.pem --tlscert=keys/cert.pem --tlskey=keys/key.pem -H=${DEPLOY_HOST}:2375"
+openssl aes-256-cbc -K $encrypted_ce0c6f32e53f_key -iv $encrypted_ce0c6f32e53f_iv -in keys.tar.enc -out keys.tar -d
+tar xvf keys.tar
 
-STATIC_DIR=$PWD/static
-
-mkdir -p ${STATIC_DIR}
-docker run --rm -v ${STATIC_DIR}:/static ${IMAGE} ./manage.py collectstatic --noinput
-
+# push image
 echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
 docker push ${IMAGE}
 
@@ -15,4 +16,31 @@ aws_access_key_id = ${AWS_ACCESS_KEY}
 aws_secret_access_key = ${AWS_SECRET_KEY}
 END
 
+# upload staticfiles
+STATIC_DIR=$PWD/static
+mkdir -p ${STATIC_DIR}
+docker run --rm -v ${STATIC_DIR}:/static ${IMAGE} ./manage.py collectstatic --noinput
 aws --endpoint-url=https://storage.yandexcloud.net s3 cp --recursive ${STATIC_DIR} ${STATIC_BUCKET}
+
+# update services
+remote_docker inspect ${DB_HOST} > /dev/null || remote_docker run \
+        -d \
+        --name ${DB_HOST} \
+        -e POSTGRES_USER=${DB_USER} \
+        -e POSTGRES_PASSWORD=${DB_PASSWORD} \
+        --network bot-nw \
+        postgres:11-alpine
+remote_docker pull ${IMAGE}
+remote_docker stop letsencrypt server || true
+remote_docker rm server || true
+remote_docker run -d --name server \
+        -e DB_HOST=${DB_HOST} \
+        -e DB_USER=${DB_USER} \
+        -e DB_PASSWORD=${DB_PASSWORD} \
+        -e DB_NAME=${DB_NAME} \
+        -e SECRET_KEY=${SECRET_KEY} \
+        --restart always \
+        --network bot-nw ${IMAGE}
+remote_docker exec server bash -c 'DJANGO_SETTINGS_MODULE=phonerepair.config.prod ./manage.py migrate'
+remote_docker start letsencrypt
+remote_docker system prune -f

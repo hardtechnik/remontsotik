@@ -1,2 +1,6 @@
 *.pyc
 .pytest_cache/
+db.sqlite3
+keys.tar
+.idea/
+yc.keys

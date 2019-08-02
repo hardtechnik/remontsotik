@@ -10,11 +10,10 @@ services:
   - docker
 
 before_install:
-  - bash docker_build
+  - docker build -t $IMAGE .
 
 script:
   - docker run --rm $IMAGE pytest
-  - docker run --rm $IMAGE ./manage.py collectstatic
 
 deploy:
   provider: script
