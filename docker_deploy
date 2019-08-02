@@ -8,8 +8,8 @@ docker run --rm -v ${STATIC_DIR}:/static ${IMAGE} ./manage.py collectstatic --no
 echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
 docker push ${IMAGE}
 
-mkdir ~/.aws/
-cat > ~/.aws/credentials < END
+mkdir $HOME/.aws/
+cat > $HOME/.aws/credentials << END
 [default]
 aws_access_key_id = ${AWS_ACCESS_KEY}
 aws_secret_access_key = ${AWS_SECRET_KEY}
