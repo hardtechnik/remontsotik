@@ -126,7 +126,5 @@ STATIC_ROOT = '/static'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/accounts/login'
 
-RECAPCHA_KEY = '6Lel-LAUAAAAAOe0vypOODrpbt2DpU3WUU1tckj7'
-RECAPCHA_SECTER_KEY = '6Lel-LAUAAAAAJKqio09exZABRC0Ojuj3zlHwcVo'
 ACCOUNT_ACTIVATION_DAYS = 7
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
