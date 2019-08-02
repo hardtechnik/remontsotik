@@ -1,7 +1,3 @@
 #!/bin/bash
 
-VERSION=${TRAVIS_BUILD_NUMBER}
-
-echo "Build version: ${VERSION}"
-
-docker build --build-arg version=${VERSION} -t ${IMAGE} .
+docker build --build-arg secret_key=${SECRET_KEY} -t ${IMAGE} .

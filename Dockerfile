@@ -1,5 +1,9 @@
 FROM python:3.7.4-slim-stretch
 
+ARG secret_key
+
+ENV SECRET_KEY=$secret_key
+
 ENV PYTHONUNBUFFERED=1
 
 ENV PORT=8000
