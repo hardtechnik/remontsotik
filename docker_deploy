@@ -39,6 +39,7 @@ remote_docker run -d --name server \
         -e DB_PASSWORD=${DB_PASSWORD} \
         -e DB_NAME=${DB_NAME} \
         -e SECRET_KEY=${SECRET_KEY} \
+        -e SENDGRID_API_KEY=${SENDGRID_API_KEY} \
         --restart always \
         --network bot-nw ${IMAGE}
 remote_docker exec server bash -c 'DJANGO_SETTINGS_MODULE=phonerepair.config.prod ./manage.py migrate'

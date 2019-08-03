@@ -21,3 +21,9 @@ DATABASES = {
     }
 }
 
+ANYMAIL = {
+    "SENDGRID_API_KEY": os.getenv('SENDGRID_API_KEY'),
+}
+EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
+DEFAULT_FROM_EMAIL = "noreply@remontsotik.ru"
+SERVER_EMAIL = "server@remontsotik.ru"
