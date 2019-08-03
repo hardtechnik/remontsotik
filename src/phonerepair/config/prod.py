@@ -27,3 +27,7 @@ ANYMAIL = {
 EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
 DEFAULT_FROM_EMAIL = "noreply@remontsotik.ru"
 SERVER_EMAIL = "server@remontsotik.ru"
+
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+PRIVATE_BUCKET = os.getenv('PRIVATE_BUCKET')

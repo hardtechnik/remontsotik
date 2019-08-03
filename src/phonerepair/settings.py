@@ -1,1 +1,4 @@
-from .config.base import *
+try:
+    from .config.local import *
+except ImportError:
+    from .config.base import *

@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block scripts %}
+  <script src="{% static 'js/FileUploader.js' %}"></script>
+  <script>
+    const signUrl = "{% url 'sign_file' %}";
+    document.addEventListener("DOMContentLoaded", function() {
+      const $fileUploader = document.getElementsByClassName('FileUploader')[0];
+      const fileUploader = new FileUploader($fileUploader, signUrl, function() {
+        if($submit.contains($spinner)) {
+          $submit.removeChild($spinner);
+          $submit.removeAttribute('disabled');
+          $submit.click();
+        }
+      });
+
+      const $spinner = document.createElement('span');
+      $spinner.setAttribute('class', 'spinner-border spinner-border-sm');
+
+      const $submit = document.getElementById('submit');
+      $submit.addEventListener('click', function(e) {
+        if (!fileUploader.allDone()) {
+          $submit.setAttribute('disabled', 'true');
+          $submit.appendChild($spinner);
+          e.stopPropagation();
+          e.preventDefault();
+        }
+      });
+    });
+  </script>
+{% endblock %}
+
+{% block content %}
+  {{ form.errors }}
+
+<div class="row mb-5">
+  <div class="offset-md-3 col-md-6">
+    <h3 class="text-center">Заявка на ремонт телефона</h3>
+    <form id="ticket-form" class="my-4" method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="name">Ваше имя:</label>
+        <input type="text" class="form-control" id="name"
+               name="name"
+               aria-describedby="phone-model-help"
+               placeholder="John Doe">
+      </div>
+      <div class="form-group">
+        <label for="phone-model">Модель телефона:</label>
+        <input type="text" class="form-control" id="phone-model"
+               name="phone_model" aria-describedby="phone-model-help"
+               placeholder="Введите модель телефона">
+        <small id="phone-model-help" class="form-text text-muted">
+          Например, iphone x
+        </small>
+      </div>
+      <div class="form-group">
+        <label for="malfunction">Неисправность:</label>
+        <textarea class="form-control" id="malfunction"
+                  aria-describedby="malfunction-help"
+                  required rows="2" name="malfunction"
+                  placeholder="Опишите вашу проблему"></textarea>
+        <small id="phone-model-help" class="form-text text-muted">
+          Телефон не включается, треснул экран и т.п.
+        </small>
+      </div>
+      <div class="form-group">
+        <label for="phone-number">Номер телефона для связи:</label>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text icon">+7</span>
+          </div>
+          <input type="number" name="phone_number" class="form-control"
+                 id="phone-number" required placeholder="1234567890">
+        </div>
+        <small id="phone-number-help" class="form-text text-muted">
+          Мы свяжемся с вами по указанному номеру
+        </small>
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" class="form-control" id="email"
+               aria-describedby="email-help" name="email"
+               placeholder="Введите email">
+        <small id="email-help" class="form-text text-muted">
+          Вы будете получать уведомления о ходе работы на указанный email
+        </small>
+      </div>
+      <div class="form-group">
+        <label for="phone-number">Ваш адрес:</label>
+        <input type="text" class="form-control" id="address"
+               aria-describedby="address-help"
+               placeholder="Введите адрес" name="address">
+        <small id="address-help" class="form-text text-muted">
+          Наш сотрудник заберет ваш телефон для ремонта
+        </small>
+      </div>
+    </form>
+    <div class="form-group FileUploader">
+      <input class="FileUploader--input" style="display:none" type="file"
+             accept=".jpg, .jpeg, .png" multiple>
+      <ul class="list-group list-group-flush FileUploader--list mb-4"></ul>
+      <button class="btn btn-info btn-block FileUploader--select">
+        Добавить фото
+      </button>
+    </div>
+    <button type="submit" id="submit" class="btn btn-block btn-primary"
+            form="ticket-form">
+      Отправить
+    </button>
+  </div>
+</div>
+{% endblock %}

@@ -38,6 +38,9 @@ remote_docker run -d --name server \
         -e DB_USER=${DB_USER} \
         -e DB_PASSWORD=${DB_PASSWORD} \
         -e DB_NAME=${DB_NAME} \
+        -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY} \
+        -e AWS_SECRET_ACCESS_ID=${AWS_SECRET_KEY} \
+        -e PRIVATE_BUCKET=${PRIVATE_BUCKET} \
         -e SECRET_KEY=${SECRET_KEY} \
         -e SENDGRID_API_KEY=${SENDGRID_API_KEY} \
         --restart always \

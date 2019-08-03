@@ -1,18 +1,11 @@
 from django.contrib import admin
 
-from .models import Malfunction, Phone, Ticket
+from .models import Ticket
 
 
 @admin.register(Ticket)
 class TicketAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(Phone)
-class PhoneAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(Malfunction)
-class MalfunctionAdmin(admin.ModelAdmin):
-    pass
+    search_fields = ('number', 'name')
+    list_filter = ('status',)
+    list_display = ('number', 'status', 'name', 'phone_number', 'created')
+    date_hierarchy = 'created'

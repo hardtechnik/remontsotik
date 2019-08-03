@@ -1,19 +1,21 @@
-from faker.factory import Factory
-
+from core.forms import TicketForm
 from core.models import Ticket
 
 
-faker = Factory.create()
-
-
-def test_create_ticket(db, user_factory, phone_factory,
-                       malfunction_factory):
-    user = user_factory.create()
-    ticket = Ticket(
-        user=user,
-        phone_model=phone_factory.create(),
-        malfunction=malfunction_factory.create(),
-        phone_number=faker.phone_number(),
+def test_create_ticket(db, faker):
+    form = TicketForm(
+        data={
+            'phone_model': faker.word(),
+            'malfunction': faker.sentence(),
+            'email': faker.email(),
+            'phone_number': faker.phone_number(),
+            'address': faker.address(),
+        },
     )
-    ticket.save()
+    assert form.is_valid()
+
+    ticket = form.save()
     assert ticket.id
+    assert len(ticket.number) == 6
+    assert ticket.created
+    assert ticket.status == Ticket.STATUS_CREATED

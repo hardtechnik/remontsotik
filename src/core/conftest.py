@@ -4,8 +4,6 @@ from faker.factory import Factory as FakerFactory
 from django.contrib.auth import get_user_model
 from pytest_factoryboy import register
 
-from core.models import Phone, Malfunction
-
 
 _faker = FakerFactory.create()
 
@@ -22,15 +20,3 @@ class UserFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = get_user_model()
-
-
-@register
-class PhoneFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = Phone
-
-
-@register
-class MalfunctionFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = Malfunction
