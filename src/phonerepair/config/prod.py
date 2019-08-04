@@ -31,3 +31,11 @@ SERVER_EMAIL = "server@remontsotik.ru"
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 PRIVATE_BUCKET = os.getenv('PRIVATE_BUCKET')
+
+MANAGERS = [
+    'hardtechnik91@gmail.com',
+]
+
+ADMINS = [
+    'hardtechnik91@gmail.com',
+]

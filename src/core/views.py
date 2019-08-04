@@ -2,8 +2,10 @@ import posixpath
 import uuid
 
 from django.conf import settings
+from django.core.mail import mail_managers
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.views.generic import TemplateView, CreateView
 
 import boto3
@@ -25,6 +27,14 @@ class CreateTicketView(CreateView):
         ticket = form.save()
         for url in self.request.POST.getlist('images'):
             ticket.images.create(url=url)
+        admin_link = reverse('admin:core_ticket_change', args=(ticket.pk,))
+        mail_managers(
+            'Новая заявка',
+            message=f'Поступила новая заявка: {admin_link}',
+            html_message=f'Поступила новая заявка: '
+                    f'<a href="{admin_link}">№{ticket.number}</a>',
+            fail_silently=True,
+        )
         return redirect(ticket.get_absolute_url())
 
 
