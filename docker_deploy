@@ -46,6 +46,6 @@ remote_docker run -d --name server \
         --restart always \
         --network bot-nw ${IMAGE}
 remote_docker exec server bash -c 'DJANGO_SETTINGS_MODULE=phonerepair.config.prod ./manage.py migrate'
-remote_docker exec server bash -c 'DJANGO_SETTINGS_MODULE=phonerepair.config.prod ./manage.py loaddata core'
+remote_docker exec server bash -c 'DJANGO_SETTINGS_MODULE=phonerepair.config.prod ./manage.py loaddata statuses'
 remote_docker start letsencrypt
 remote_docker system prune -f
