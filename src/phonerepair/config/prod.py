@@ -33,10 +33,10 @@ AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 PRIVATE_BUCKET = os.getenv('PRIVATE_BUCKET')
 
 MANAGERS = [
-    'hardtechnik91@gmail.com',
-    'n.murtazin22@gmail.com',
+    ('Рустам', 'hardtechnik91@gmail.com'),
+    ('Нияз', 'n.murtazin22@gmail.com'),
 ]
 
 ADMINS = [
-    'hardtechnik91@gmail.com',
+    ('Рустам', 'hardtechnik91@gmail.com'),
 ]
