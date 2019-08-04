@@ -19,11 +19,9 @@
     e.preventDefault();
   }
 
-  function FileUploader($el, signUrl, onUploadCompleted) {
+  function FileUploader($el, signUrl) {
     this.signUrl = signUrl;
-    this.started = 0;
-    this.finished = 0;
-    this.onUploadCompleted = onUploadCompleted;
+    this.active = 0;
 
     this.$select = $el.getElementsByClassName('FileUploader--select')[0];
     this.$input = $el.getElementsByClassName('FileUploader--input')[0];
@@ -40,7 +38,7 @@
   }
 
   FileUploader.prototype.allDone = function(e) {
-    return this.started === this.finished;
+    return this.active === 0
   };
 
   FileUploader.prototype.onDrag = function(e) {
@@ -65,42 +63,49 @@
   };
 
   FileUploader.prototype.upload = async function(file) {
-    const $status = this.uploadBegin(file);
-    // sign request to upload file to s3
-    let form = new FormData();
-    form.append('filename', file.name);
-    let response = await fetch(this.signUrl, {
-      method: 'post',
-      body: form,
-      credentials: 'include',
-      headers: {
-        'X-CSRFToken': getCookie('csrftoken'),
-        'X-Requested-With': 'XMLHttpRequest',
+    this.active++;
+    try {
+      const $status = this.uploadBegin(file);
+      // sign request to upload file to s3
+      let form = new FormData();
+      form.append('filename', file.name);
+      let response = await fetch(this.signUrl, {
+        method: 'post',
+        body: form,
+        credentials: 'include',
+        headers: {
+          'X-CSRFToken': getCookie('csrftoken'),
+          'X-Requested-With': 'XMLHttpRequest',
+        }
+      });
+      const data = await response.json();
+
+      // upload signed file to s3
+      form = new FormData();
+      for (let name in data.fields) {
+        form.append(name, data.fields[name]);
       }
-    });
-    const data = await response.json();
+      form.append('file', file);
+      await fetch(data.url, {
+        method: 'POST',
+        body: form,
+      });
 
-    // upload signed file to s3
-    form = new FormData();
-    for (let name in data.fields) {
-      form.append(name, data.fields[name]);
+      this.uploadCompleted($status, data.fields.key);
+    } finally {
+      this.active--;
     }
-    form.append('file', file);
-    await fetch(data.url, {
-      method: 'POST',
-      body: form,
-    });
 
-    this.uploadCompleted($status);
+    if (this.allDone()) {
+      this.onUploadCompleted && this.onUploadCompleted();
+    }
   };
 
   FileUploader.prototype.uploadBegin = function(file) {
-    this.started++;
-
     const $listItem = document.createElement('li');
     $listItem.setAttribute(
       'class',
-      'list-group-item d-flex align-items-center',
+      'list-group-item d-flex align-items-center FileUploader--listItem',
     );
     $listItem.style.height = '48px';
 
@@ -143,15 +148,11 @@
   };
 
 
-  FileUploader.prototype.uploadCompleted = function($status) {
-    this.finished++;
-    if (this.allDone()) {
-      this.onUploadCompleted && this.onUploadCompleted();
-    }
+  FileUploader.prototype.uploadCompleted = function($status, key) {
     if (!this.$list.contains($status)) {
       return;
     }
-
+    $status.setAttribute('data-key', key);
     const spinners = $status.getElementsByClassName('spinner-grow');
     const button = $status.getElementsByTagName('button');
     $status.removeChild(spinners[0]);
@@ -161,6 +162,18 @@
     $status.appendChild($ok);
     const $cancelButton = this._cancelButton($status);
     $status.appendChild($cancelButton);
+  };
+
+  FileUploader.prototype.getUploadedFiles = function() {
+    const files = [];
+    const items = this.$list.getElementsByClassName('FileUploader--listItem');
+    for (let i = 0; i < items.length; i++) {
+      let key = items[i].getAttribute('data-key');
+      if(key) {
+        files.push(key)
+      }
+    }
+    return files;
   };
 
   namespace.FileUploader = FileUploader;

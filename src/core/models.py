@@ -1,32 +1,29 @@
 import random
 from django.db import models, IntegrityError
+from django.urls import reverse
 
 
 def generate_number():
     return str(random.randint(100000, 999999))
 
 
-class Ticket(models.Model):
-    STATUS_CREATED = 1
-    STATUS_APPROVED = 2
-    STATUS_IN_PROGRESS = 3
-    STATUS_READY = 4
-    STATUS_CANCELED = 5
-    STATUS_DONE = 6
+class Status(models.Model):
+    name = models.CharField(verbose_name='Название', max_length=50)
+    description = models.TextField(verbose_name='Описание')
 
-    STATUSES = (
-        (STATUS_CREATED, 'Новая'),
-        (STATUS_APPROVED, 'Проверена'),
-        (STATUS_IN_PROGRESS, 'В ремонте'),
-        (STATUS_READY, 'Готова'),
-        (STATUS_CANCELED, 'Отменена'),
-        (STATUS_DONE, 'Выпонена'),
-    )
-    status = models.PositiveSmallIntegerField(
+    class Meta:
+        verbose_name = 'Статус'
+        verbose_name_plural = 'Статусы'
+
+    def __str__(self):
+        return self.name
+
+
+class Ticket(models.Model):
+    status = models.ForeignKey(
+        Status,
         verbose_name='Статус',
-        choices=STATUSES,
-        default=STATUS_CREATED,
-        db_index=True,
+        on_delete=models.PROTECT,
     )
     name = models.CharField(
         max_length=100,
@@ -74,23 +71,30 @@ class Ticket(models.Model):
         return self.number
 
     def save(self, *args, **kwargs):
-        if self.number:
-            return super().save(*args, **kwargs)
+        if not self.pk:
+            # default status from fixture
+            self.status = Status.objects.get(pk=1)
 
-        self.number = generate_number()
-        for attempt in range(3):
-            try:
-                return super().save(*args, **kwargs)
-            except IntegrityError as e:
-                # last attempt is failed, raise error
-                if attempt == 2:
-                    raise e
+        if not self.number:
+            self.number = generate_number()
+            for attempt in range(3):
+                try:
+                    return super().save(*args, **kwargs)
+                except IntegrityError as e:
+                    # last attempt is failed, raise error
+                    if attempt == 2:
+                        raise e
+        return super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('ticket_detail', kwargs={'number': self.number})
 
 
 class Image(models.Model):
-    file = models.URLField(verbose_name='Ссылка')
+    url = models.URLField(verbose_name='Ссылка')
     ticket = models.ForeignKey(
         Ticket,
+        related_name='images',
         verbose_name='Изображение',
         on_delete=models.CASCADE,
     )
@@ -98,3 +102,6 @@ class Image(models.Model):
     class Meta:
         verbose_name = 'Изображение'
         verbose_name_plural = 'Изображения'
+
+    def __str__(self):
+        return self.url

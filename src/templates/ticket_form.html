@@ -3,37 +3,20 @@
 
 {% block scripts %}
   <script src="{% static 'js/FileUploader.js' %}"></script>
+  <script src="{% static 'js/TicketForm.js' %}"></script>
   <script>
     const signUrl = "{% url 'sign_file' %}";
     document.addEventListener("DOMContentLoaded", function() {
-      const $fileUploader = document.getElementsByClassName('FileUploader')[0];
-      const fileUploader = new FileUploader($fileUploader, signUrl, function() {
-        if($submit.contains($spinner)) {
-          $submit.removeChild($spinner);
-          $submit.removeAttribute('disabled');
-          $submit.click();
-        }
-      });
-
-      const $spinner = document.createElement('span');
-      $spinner.setAttribute('class', 'spinner-border spinner-border-sm');
-
-      const $submit = document.getElementById('submit');
-      $submit.addEventListener('click', function(e) {
-        if (!fileUploader.allDone()) {
-          $submit.setAttribute('disabled', 'true');
-          $submit.appendChild($spinner);
-          e.stopPropagation();
-          e.preventDefault();
-        }
-      });
+      const uploader = new FileUploader(
+        document.getElementsByClassName('FileUploader')[0],
+        signUrl,
+      );
+      new TicketForm(document.getElementById('ticket-form'), uploader);
     });
   </script>
 {% endblock %}
 
 {% block content %}
-  {{ form.errors }}
-
 <div class="row mb-5">
   <div class="offset-md-3 col-md-6">
     <h3 class="text-center">Заявка на ремонт телефона</h3>
@@ -96,6 +79,7 @@
           Наш сотрудник заберет ваш телефон для ремонта
         </small>
       </div>
+      <select id="images" name="images" hidden multiple></select>
     </form>
     <div class="form-group FileUploader">
       <input class="FileUploader--input" style="display:none" type="file"
