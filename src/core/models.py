@@ -28,6 +28,7 @@ class Ticket(models.Model):
     name = models.CharField(
         max_length=100,
         verbose_name='Клиент',
+        blank=True,
     )
     number = models.CharField(
         max_length=6,
