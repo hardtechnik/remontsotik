@@ -8,8 +8,15 @@ def generate_number():
 
 
 class Status(models.Model):
-    name = models.CharField(verbose_name='Название', max_length=50)
-    description = models.TextField(verbose_name='Описание')
+    name = models.CharField(
+        verbose_name='Название',
+        max_length=50,
+        help_text='Название статуса заявки',
+    )
+    description = models.TextField(
+        verbose_name='Описание',
+        help_text='Этот текст будет отображаться клиенту при просмотре заявки',
+    )
 
     class Meta:
         verbose_name = 'Статус'
