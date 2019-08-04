@@ -1,8 +1,7 @@
 from core.forms import TicketForm
-from core.models import Ticket
 
 
-def test_create_ticket(db, faker):
+def test_create_ticket(db, statuses, faker):
     form = TicketForm(
         data={
             'phone_model': faker.word(),
@@ -18,4 +17,3 @@ def test_create_ticket(db, faker):
     assert ticket.id
     assert len(ticket.number) == 6
     assert ticket.created
-    assert ticket.status == Ticket.STATUS_CREATED

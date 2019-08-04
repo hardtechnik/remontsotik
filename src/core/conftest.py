@@ -1,8 +1,7 @@
-import factory
 import pytest
+from django.core.management import call_command
+
 from faker.factory import Factory as FakerFactory
-from django.contrib.auth import get_user_model
-from pytest_factoryboy import register
 
 
 _faker = FakerFactory.create()
@@ -13,10 +12,6 @@ def faker():
     yield FakerFactory.create()
 
 
-@register
-class UserFactory(factory.django.DjangoModelFactory):
-    username = _faker.user_name()
-    is_active = True
-
-    class Meta:
-        model = get_user_model()
+@pytest.fixture
+def statuses():
+    call_command('loaddata', 'statuses')
