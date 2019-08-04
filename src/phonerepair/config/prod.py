@@ -34,6 +34,7 @@ PRIVATE_BUCKET = os.getenv('PRIVATE_BUCKET')
 
 MANAGERS = [
     'hardtechnik91@gmail.com',
+    'n.murtazin22@gmail.com',
 ]
 
 ADMINS = [
