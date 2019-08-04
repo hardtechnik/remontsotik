@@ -1,5 +1,6 @@
 import posixpath
 import uuid
+from urllib.parse import urljoin
 
 from django.conf import settings
 from django.core.mail import mail_managers
@@ -28,6 +29,7 @@ class CreateTicketView(CreateView):
         for url in self.request.POST.getlist('images'):
             ticket.images.create(url=url)
         admin_link = reverse('admin:core_ticket_change', args=(ticket.pk,))
+        admin_link = urljoin('https://'+settings.DOMAIN, admin_link)
         mail_managers(
             'Новая заявка',
             message=f'Поступила новая заявка: {admin_link}',

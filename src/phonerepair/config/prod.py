@@ -40,3 +40,5 @@ MANAGERS = [
 ADMINS = [
     ('Рустам', 'hardtechnik91@gmail.com'),
 ]
+
+DOMAIN = os.getenv('DOMAIN')
