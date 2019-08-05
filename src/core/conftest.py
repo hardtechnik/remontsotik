@@ -59,7 +59,7 @@ if settings.CI:
 
 
 @pytest.fixture
-def view_url(live_server):
+def absolute_url(live_server):
     def f(view_name):
         view_url = view_name
         if not view_name.startswith('/'):

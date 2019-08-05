@@ -12,10 +12,10 @@ async def fill_input(page, selector, value):
     await field.type(value)
 
 
-async def test_create_ticket(db, page, view_url, statuses):
+async def test_create_ticket(db, page, absolute_url, statuses):
     tickets = Ticket.objects.all()
     assert tickets.count() == 0
-    await page.goto(view_url('index'))
+    await page.goto(absolute_url('index'))
 
     name = 'Рустам'
     phone_model = 'Xiaomi Redmi 5 Plus'
