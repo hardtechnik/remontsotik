@@ -4,9 +4,10 @@ from urllib.parse import urljoin
 
 from django.conf import settings
 from django.core.mail import mail_managers
-from django.http import Http404, JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView, CreateView
 
 import boto3
@@ -46,12 +47,11 @@ def ticket_detail_view(request, number):
         number=number,
     )
     context = {'ticket': ticket}
-    return render(request, 'ticket_created.html', context=context)
+    return render(request, 'ticket.html', context=context)
 
 
+@require_POST
 def sign_file(request):
-    if not request.method == 'POST':
-        raise Http404()
     filename = request.POST['filename']
     s3 = boto3.client(
         's3',

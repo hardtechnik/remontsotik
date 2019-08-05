@@ -2,9 +2,9 @@ django==2.2.4
 pytest==5.0.1
 pytest-django==3.5.1
 pytest-factoryboy==2.0.3
-django-registration==3.0.1
-beautifulsoup4==4.8.0
 psycopg2-binary==2.8.3
 django-anymail==6.1.0
 boto3==1.9.200
 pyyaml==5.1.2
+pytest-asyncio==0.10.0
+pyppeteer==0.0.25
