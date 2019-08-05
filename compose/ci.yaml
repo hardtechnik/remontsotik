@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  browser:
+    image: browserless/chrome
+
+  test.server:
+    depends_on:
+      - browser
+    image: $IMAGE
+    environment:
+      DJANGO_SETTINGS_MODULE: phonerepair.config.ci

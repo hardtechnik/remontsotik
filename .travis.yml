@@ -5,6 +5,7 @@ addons:
   apt:
     packages:
       - awscli
+      - docker-compose
 
 services:
   - docker
@@ -13,7 +14,7 @@ before_install:
   - docker build -t $IMAGE .
 
 script:
-  - bash docker_test
+  - docker-compose -f compose/ci.yaml run --use-aliases --rm test.server pytest
 
 deploy:
   provider: script

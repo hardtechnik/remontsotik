@@ -1,0 +1,51 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:11-alpine
+    restart: "no"
+    environment:
+      POSTGRES_USER=${DB_USER}
+      POSTGRES_PASSWORD=${DB_PASSWORD}
+
+  server:
+    image: rkashapov/remontsotik:latest
+    depends_on:
+      - postgres
+    restart: always
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      DOMAIN: ${DEPLOY_HOST}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_KEY}
+      PRIVATE_BUCKET: ${PRIVATE_BUCKET}
+      SECRET_KEY: ${SECRET_KEY}
+      SENDGRID_API_KEY: ${SENDGRID_API_KEY}
+      DJANGO_SETTINGS_MODULE: phonerepair.config.prod
+    command: bash -c "
+        ./manage.py migrate &&
+        ./manage.py loaddata statuses &&
+        uwsgi --socket 0.0.0.0:8000 --wsgi-file ./phonerepair/wsgi.py
+      "
+
+  letsencrypt:
+    cap_add:
+      - NET_ADMIN
+    image: linuxserver/letsencrypt
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Moscow
+      URL: ${DEPLOY_HOST}
+      SUBDOMAINS: www
+      VALIDATION: http
+    ports:
+      - 443:443
+      - 80:80
+    volumes:
+      - /home/hardtechnik/config:/config
+    restart: always
+    depends_on:
+      - server
