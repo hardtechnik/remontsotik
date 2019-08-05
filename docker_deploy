@@ -33,6 +33,6 @@ export DOCKER_HOST="${REMOTE_DOCKER_HOST}:2375"
 export DOCKER_TLS_VERIFY=1
 export DOCKER_CERT_PATH=keys
 
-docker stack deploy --compose-file compose/prod.yaml phonerepair
+docker stack deploy --prune --compose-file compose/prod.yaml phonerepair
 
 docker system prune -f

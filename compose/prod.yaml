@@ -5,6 +5,9 @@ services:
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - /home/hardtechnik/data:/var/lib/postgresql/data
     deploy:
       mode: global
 
