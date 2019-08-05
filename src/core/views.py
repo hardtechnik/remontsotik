@@ -10,11 +10,9 @@ from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.views.generic import CreateView
 
-import boto3
-import botocore
-
 from .models import Ticket
 from .forms import TicketForm
+from .s3 import client as s3_client
 
 
 class CreateTicketView(CreateView):
@@ -49,14 +47,7 @@ def ticket_detail_view(request, number):
 @require_POST
 def sign_file(request):
     filename = request.POST['filename']
-    s3 = boto3.client(
-        's3',
-        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-        region_name='ru-central1',
-        endpoint_url='https://storage.yandexcloud.net',
-        config=botocore.client.Config(signature_version='s3v4'),
-    )
+    s3 = s3_client()
     filename = f'{str(uuid.uuid4())[:6]}-{filename}'
     key = posixpath.join('uploads', filename)
     signed_data = s3.generate_presigned_post(
