@@ -20,3 +20,5 @@ docker run \
     --network ${TEST_NETWORK} \
     ${IMAGE} \
     pytest
+
+docker rm -f browser
