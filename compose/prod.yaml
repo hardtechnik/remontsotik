@@ -36,9 +36,7 @@ services:
     deploy:
       replicas: 2
       update_config:
-        parallelism: 1
         delay: 5s
-        monitor: 5s
         failure_action: rollback
 
   letsencrypt:
