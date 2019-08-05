@@ -31,7 +31,7 @@ async def browser(event_loop):
             'args': ['--disable-dev-shm-usage'],
         })
     else:
-        b = await pyppeteer.launch({'headless': False})
+        b = await pyppeteer.launch()
     yield b
     await b.disconnect()
 

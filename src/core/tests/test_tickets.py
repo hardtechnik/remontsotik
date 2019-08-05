@@ -1,6 +1,10 @@
 from asyncio import gather
+from urllib.parse import urljoin
+
+from django.core import mail
 
 import pytest
+from django.urls import reverse
 
 from core.models import Ticket
 
@@ -12,9 +16,13 @@ async def fill_input(page, selector, value):
     await field.type(value)
 
 
-async def test_create_ticket(db, page, absolute_url, statuses):
+@pytest.mark.django_db
+async def test_create_ticket(page, absolute_url, statuses, settings):
     tickets = Ticket.objects.all()
     assert tickets.count() == 0
+
+    settings.MANAGERS = [('Manager', 'manager@mail.com')]
+
     await page.goto(absolute_url('index'))
 
     name = 'Рустам'
@@ -48,3 +56,11 @@ async def test_create_ticket(db, page, absolute_url, statuses):
     assert ticket.phone_number == phone_number
     assert ticket.email == email
     assert ticket.address == address
+
+    sent_email = mail.outbox[0]
+    assert sent_email.to == ['manager@mail.com']
+    ticket_admin_url = urljoin(
+        f'https://{settings.DOMAIN}',
+        reverse('admin:core_ticket_change', args=(ticket.id,)),
+    )
+    assert ticket_admin_url in sent_email.body
