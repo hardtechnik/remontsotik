@@ -15,7 +15,7 @@ STATIC_DIR=$PWD/static
 mkdir -p ${STATIC_DIR}
 docker run \
     --rm -v ${STATIC_DIR}:/static ${IMAGE} \
-    ./manage.py collectstatic --noinputb
+    ./manage.py collectstatic --noinput
 aws \
     --endpoint-url=https://storage.yandexcloud.net \
     s3 cp --recursive ${STATIC_DIR} ${STATIC_BUCKET}
@@ -29,11 +29,13 @@ openssl \
     -d
 tar xvf keys.tar
 
-export DOCKER_HOST=${REMOTE_DOCKER_HOST}
+export DOCKER_HOST="${REMOTE_DOCKER_HOST}:2375"
 export DOCKER_TLS_VERIFY=1
 export DOCKER_CERT_PATH=keys
 
-docker-compose -f compose/prod.yml pull
-docker-compose -f compose/prod.yml restart
+COMPOSE=compose/prod.yaml
+docker-compose -f ${COMPOSE} pull
+docker-compose -f ${COMPOSE} restart || docker-compose -f ${COMPOSE} up -d
+docker-compose -f ${COMPOSE} ps --service | grep server
 
 docker system prune -f

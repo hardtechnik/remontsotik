@@ -4,8 +4,8 @@ services:
     image: postgres:11-alpine
     restart: "no"
     environment:
-      POSTGRES_USER=${DB_USER}
-      POSTGRES_PASSWORD=${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
 
   server:
     image: rkashapov/remontsotik:latest
@@ -25,10 +25,10 @@ services:
       SENDGRID_API_KEY: ${SENDGRID_API_KEY}
       DJANGO_SETTINGS_MODULE: phonerepair.config.prod
     command: bash -c "
-        ./manage.py migrate &&
-        ./manage.py loaddata statuses &&
-        uwsgi --socket 0.0.0.0:8000 --wsgi-file ./phonerepair/wsgi.py
-      "
+      ./manage.py migrate &&
+      ./manage.py loaddata statuses &&
+      uwsgi --socket 0.0.0.0:8000 --wsgi-file ./phonerepair/wsgi.py
+    "
 
   letsencrypt:
     cap_add:
