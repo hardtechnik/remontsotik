@@ -17,6 +17,7 @@ class ImageInline(admin.StackedInline):
 class TicketAdmin(admin.ModelAdmin):
     search_fields = ('number', 'name')
     list_filter = ('status__name',)
+    readonly_fields = ('number',)
     list_display = (
         'number',
         'status',
