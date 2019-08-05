@@ -2,11 +2,11 @@ from asyncio import gather
 from urllib.parse import urljoin
 
 from django.core import mail
-
-import pytest
 from django.urls import reverse
 
+import pytest
 from core.models import Ticket
+
 
 pytestmark = pytest.mark.asyncio
 

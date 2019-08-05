@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
+from .models import Image, Status, Ticket
 from .s3 import get_presigned_url
-from .models import Ticket, Image, Status
 
 
 @admin.register(Status)

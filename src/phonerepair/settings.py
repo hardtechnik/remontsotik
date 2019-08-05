@@ -1,4 +1,4 @@
 try:
-    from .config.local import *
+    from .config.local import *  # noqa
 except ImportError:
-    from .config.base import *
+    from .config.base import *  # noqa

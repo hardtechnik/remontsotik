@@ -1,12 +1,12 @@
 import os
 from urllib.parse import urljoin
 
-from django.core.management import call_command
 from django.conf import settings
+from django.core.management import call_command
 from django.urls import reverse
 
-import pytest
 import pyppeteer
+import pytest
 from pytest_django.live_server_helper import LiveServer
 
 

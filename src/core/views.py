@@ -10,8 +10,8 @@ from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.views.generic import CreateView
 
-from .models import Ticket
 from .forms import TicketForm
+from .models import Ticket
 from .s3 import client as s3_client
 
 
