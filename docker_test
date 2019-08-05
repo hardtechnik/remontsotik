@@ -13,12 +13,15 @@ docker run \
 
 docker run \
     --name test.server \
-    -e CI='True' \
-    -e DJANGO_SETTINGS_MODULE=phonerepair.settings \
-    --rm \
+    -e DJANGO_SETTINGS_MODULE=phonerepair.config.ci \
     --expose 43923 \
     --network ${TEST_NETWORK} \
+    --rm \
     ${IMAGE} \
     pytest
+code=$?
 
+[ code -ne 1 ] && docker logs browser
 docker rm -f browser
+
+exit $code

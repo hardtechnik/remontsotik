@@ -118,6 +118,4 @@ ACCOUNT_ACTIVATION_DAYS = 7
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 DEBUG = True
-CI = os.getenv('CI', False)
-if CI:
-    ALLOWED_HOSTS = ['test.server']
+CI = False

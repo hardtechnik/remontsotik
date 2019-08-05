@@ -24,7 +24,7 @@ def statuses():
 
 
 @pytest.fixture
-async def browser():
+async def browser(event_loop):
     if settings.CI:
         b = await pyppeteer.connect({
             'browserWSEndpoint': 'ws://browser:3000',
