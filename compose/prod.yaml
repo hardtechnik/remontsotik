@@ -5,6 +5,8 @@ services:
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
+    deploy:
+      mode: global
 
   server:
     image: ${IMAGE}
@@ -28,6 +30,11 @@ services:
         ./manage.py loaddata statuses &&
         uwsgi --socket 0.0.0.0:8000 --wsgi-file ./phonerepair/wsgi.py
       "
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        failure_action: rollback
 
   letsencrypt:
     cap_add:
@@ -46,3 +53,5 @@ services:
     volumes:
       - /home/hardtechnik/config:/config
     restart: unless-stopped
+    deploy:
+      mode: global
