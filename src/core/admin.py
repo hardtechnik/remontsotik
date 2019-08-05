@@ -17,6 +17,16 @@ class ImageInline(admin.StackedInline):
 class TicketAdmin(admin.ModelAdmin):
     search_fields = ('number', 'name')
     list_filter = ('status__name',)
-    list_display = ('number', 'status', 'name', 'phone_number', 'created')
+    list_display = (
+        'number',
+        'status',
+        'name',
+        'phone_number',
+        'email',
+        'created',
+    )
     date_hierarchy = 'created'
     inlines = (ImageInline, )
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related('status')

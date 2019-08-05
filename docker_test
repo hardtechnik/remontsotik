@@ -21,7 +21,7 @@ docker run \
     pytest
 code=$?
 
-[ code -ne 1 ] && docker logs browser
+[[ code -eq 1 ]] && docker logs browser
 docker rm -f browser
 
 exit $code
