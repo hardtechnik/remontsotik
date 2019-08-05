@@ -37,7 +37,3 @@ MANAGERS = [
     ('Рустам', 'hardtechnik91@gmail.com'),
     ('Нияз', 'n.murtazin22@gmail.com'),
 ]
-
-ADMINS = [
-    ('Рустам', 'hardtechnik91@gmail.com'),
-]
