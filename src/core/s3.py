@@ -1,9 +1,12 @@
+from functools import lru_cache
+
 from django.conf import settings
 
 import boto3
 import botocore
 
 
+@lru_cache(maxsize=1)
 def client():
     return boto3.client(
         's3',
