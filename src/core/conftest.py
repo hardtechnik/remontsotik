@@ -28,6 +28,7 @@ async def browser():
     if settings.CI:
         b = await pyppeteer.connect({
             'browserWSEndpoint': 'ws://browser:3000',
+            'args': ['--disable-dev-shm-usage'],
         })
     else:
         b = await pyppeteer.launch({'headless': False})
