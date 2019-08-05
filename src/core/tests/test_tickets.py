@@ -23,7 +23,7 @@ async def test_create_ticket(page, absolute_url, statuses, settings):
 
     settings.MANAGERS = [('Manager', 'manager@mail.com')]
 
-    await page.goto(absolute_url('index'))
+    await page.goto(absolute_url('create_ticket'))
 
     name = 'Рустам'
     phone_model = 'Xiaomi Redmi 5 Plus'

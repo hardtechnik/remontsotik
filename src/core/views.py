@@ -8,17 +8,13 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_POST
-from django.views.generic import TemplateView, CreateView
+from django.views.generic import CreateView
 
 import boto3
 import botocore
 
 from .models import Ticket
 from .forms import TicketForm
-
-
-class IndexView(TemplateView):
-    template_name = 'index.html'
 
 
 class CreateTicketView(CreateView):
