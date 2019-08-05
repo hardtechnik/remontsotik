@@ -34,8 +34,10 @@ export DOCKER_TLS_VERIFY=1
 export DOCKER_CERT_PATH=keys
 
 COMPOSE=compose/prod.yaml
-docker-compose -f ${COMPOSE} pull
-docker-compose -f ${COMPOSE} restart || docker-compose -f ${COMPOSE} up -d
+docker-compose -f ${COMPOSE} pull server
+docker-compose -f ${COMPOSE} stop server
+docker-compose -f ${COMPOSE} rm -f server
+docker-compose -f ${COMPOSE} up -d server
 docker-compose -f ${COMPOSE} ps --service | grep server
 
 docker system prune -f
