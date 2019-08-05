@@ -28,11 +28,6 @@ services:
       SECRET_KEY: ${SECRET_KEY}
       SENDGRID_API_KEY: ${SENDGRID_API_KEY}
       DJANGO_SETTINGS_MODULE: phonerepair.config.prod
-    command: bash -c "
-        ./manage.py migrate &&
-        ./manage.py loaddata statuses &&
-        uwsgi --socket 0.0.0.0:8000 --wsgi-file ./phonerepair/wsgi.py
-      "
     deploy:
       replicas: 2
       update_config:

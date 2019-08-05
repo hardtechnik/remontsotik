@@ -33,6 +33,8 @@ export DOCKER_HOST="${REMOTE_DOCKER_HOST}:2375"
 export DOCKER_TLS_VERIFY=1
 export DOCKER_CERT_PATH=keys
 
+docker run --rm ${IMAGE} \
+    bash -c './manage.py migrate && ./manage.py loaddata statuses'
 docker stack deploy --prune --compose-file compose/prod.yaml phonerepair
 
 docker system prune -f
