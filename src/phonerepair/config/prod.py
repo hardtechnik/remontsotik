@@ -6,7 +6,8 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['rkashapov.tk']
+DOMAIN = os.getenv('DOMAIN')
+ALLOWED_HOSTS = [DOMAIN]
 
 STATIC_URL = 'https://storage.yandexcloud.net/remontsotik/static/'
 
@@ -40,5 +41,3 @@ MANAGERS = [
 ADMINS = [
     ('Рустам', 'hardtechnik91@gmail.com'),
 ]
-
-DOMAIN = os.getenv('DOMAIN')
