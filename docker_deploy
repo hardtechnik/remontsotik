@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 shopt -s expand_aliases
-alias remote_docker="docker --tlsverify --tlscacert=keys/ca.pem --tlscert=keys/cert.pem --tlskey=keys/key.pem -H=${DEPLOY_HOST}:2375"
+alias remote_docker="docker --tlsverify --tlscacert=keys/ca.pem --tlscert=keys/cert.pem --tlskey=keys/key.pem -H=${REMOTE_DOCKER_HOST}:2375"
 openssl aes-256-cbc -K $encrypted_ce0c6f32e53f_key -iv $encrypted_ce0c6f32e53f_iv -in keys.tar.enc -out keys.tar -d
 tar xvf keys.tar
 
