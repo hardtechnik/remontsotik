@@ -2,10 +2,6 @@ FROM python:3.7.4-slim-stretch
 
 ENV PYTHONUNBUFFERED=1
 
-ENV PORT=8000
-
-EXPOSE $PORT
-
 ADD ./src /usr/src/app
 
 WORKDIR /usr/src/app
@@ -24,4 +20,4 @@ RUN set -x \
     && find /usr/src/app -type d -name __pycache__ -exec rm -rf '{}' + \
     && apt-get purge -y --auto-remove $buildDeps
 
-CMD uwsgi --socket 0.0.0.0:${PORT} --wsgi-file ./phonerepair/wsgi.py
+CMD uwsgi --socket 0.0.0.0:8000 --wsgi-file ./phonerepair/wsgi.py
