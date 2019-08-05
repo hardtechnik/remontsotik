@@ -1,5 +1,7 @@
 dist: xenial
-language: minimal
+language: python
+python:
+  - "3.7"
 
 addons:
   apt:
@@ -11,7 +13,7 @@ services:
   - docker
 
 install:
-  - pip install flake8 isort --user
+  - pip install flake8 isort
 
 before_script:
   - flake8 .
