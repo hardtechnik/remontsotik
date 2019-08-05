@@ -55,7 +55,7 @@ class Ticket(models.Model):
     email = models.EmailField(
         verbose_name='Email',
         blank=True,
-    ),
+    )
     phone_number = models.CharField(
         verbose_name='Номер телефона',
         max_length=20,

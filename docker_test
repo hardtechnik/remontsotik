@@ -1,0 +1,22 @@
+#!/bin/bash
+
+BROWSER_PORT=3000
+TEST_NETWORK=test-network
+
+docker network create ${TEST_NETWORK}
+docker run \
+    -p ${BROWSER_PORT}:3000 \
+    --name browser \
+    --network ${TEST_NETWORK} \
+    -d \
+    browserless/chrome
+
+docker run \
+    --name test.server \
+    -e CI='True' \
+    -e DJANGO_SETTINGS_MODULE=phonerepair.settings \
+    --rm \
+    --expose 43923 \
+    --network ${TEST_NETWORK} \
+    ${IMAGE} \
+    pytest

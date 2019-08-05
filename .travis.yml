@@ -13,7 +13,7 @@ before_install:
   - docker build -t $IMAGE .
 
 script:
-  - docker run --rm $IMAGE pytest
+  - bash docker_test
 
 deploy:
   provider: script
