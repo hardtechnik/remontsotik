@@ -29,7 +29,7 @@ ANYMAIL = {
 }
 EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
 DEFAULT_FROM_EMAIL = "noreply@remontsotik.ru"
-SERVER_EMAIL = "RemontSotik <server@remontsotik.ru>"
+SERVER_EMAIL = "Ремонт Сотик <server@remontsotik.ru>"
 EMAIL_SUBJECT_PREFIX = ''
 
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
