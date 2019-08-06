@@ -27,7 +27,10 @@
         <input type="text" class="form-control" id="name"
                name="name"
                aria-describedby="phone-model-help"
-               placeholder="John Doe">
+               placeholder="Введите ваше имя">
+        <small id="phone-model-help" class="form-text text-muted">
+          Как мы можем к вам обращаться?
+        </small>
       </div>
       <div class="form-group">
         <label for="phone-model">Модель телефона:</label>
@@ -82,7 +85,7 @@
       <select id="images" name="images" hidden multiple></select>
     </form>
     <div class="form-group FileUploader">
-      <input class="FileUploader--input" style="display:none" type="file"
+      <input class="FileUploader--input" hidden type="file"
              accept=".jpg, .jpeg, .png" multiple>
       <ul class="list-group list-group-flush FileUploader--list mb-4"></ul>
       <button class="btn btn-outline-primary btn-block FileUploader--select">
