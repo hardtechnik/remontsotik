@@ -6,6 +6,14 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta property="og:title" content="Ремонт Сотик">
+  <meta property="og:type" content="website">
+  <meta property="og:description"
+        content="Сервис по ремонту телефонов, планшетов и компьютеров">
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:content" content="text/html">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+
   <title>Ремонт телефонов</title>
   <link rel="stylesheet" href="{% static 'vendor/bootstrap.min.css' %}">
   <link rel="stylesheet" href="{% static 'vendor/font-awesome.min.css' %}">
@@ -19,9 +27,7 @@
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-between">
-    <a href="/" class="navbar-brand">
-      remontsotik.ru
-    </a>
+    <a href="/" class="navbar-brand">Ремонт Сотик</a>
   </nav>
   <div class="container">
   {% block content %}{% endblock %}
