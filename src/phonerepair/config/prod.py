@@ -76,3 +76,5 @@ MANAGERS = [
     ('Рустам', 'hardtechnik91@gmail.com'),
     ('Нияз', 'n.murtazin22@gmail.com'),
 ]
+
+CSRF_COOKIE_SECURE = True
