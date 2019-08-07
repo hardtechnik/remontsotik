@@ -2,9 +2,9 @@ FROM python:3.7.4-slim-stretch
 
 ENV PYTHONUNBUFFERED=1
 
-ADD ./src /usr/src/app
+ADD ./src /src
 
-WORKDIR /usr/src/app
+WORKDIR /src
 
 RUN set -x \
     && buildDeps='gcc libc-dev' \
@@ -17,7 +17,7 @@ RUN set -x \
         \( -type d -a -name test -o -name tests \) \
         -o \( -type f -a -name '*.pyc' -o -name '*.pyo' \) \
         -exec rm -rf '{}' + \
-    && find /usr/src/app -type d -name __pycache__ -exec rm -rf '{}' + \
+    && find /src -type d -name __pycache__ -exec rm -rf '{}' + \
     && apt-get purge -y --auto-remove $buildDeps
 
 CMD uwsgi --socket 0.0.0.0:8000 --wsgi-file ./phonerepair/wsgi.py

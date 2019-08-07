@@ -10,3 +10,8 @@ services:
     image: $IMAGE
     environment:
       DJANGO_SETTINGS_MODULE: phonerepair.config.ci
+    volumes:
+      - test_artifacts:/src/test-reports
+
+volumes:
+  test_artifacts:

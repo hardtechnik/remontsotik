@@ -35,9 +35,17 @@ async def page(request, browser, live_server):
     yield p
 
     if request.node.rep_call.failed:
-        os.makedirs('screenshots', exist_ok=True)
+        screenshots_dir = os.path.join(
+            settings.BASE_DIR,
+            'test-reports',
+            'screenshots',
+        )
+        os.makedirs(screenshots_dir, exist_ok=True)
         await p.screenshot({
-            'path': f'screenshots/{request.node.nodeid.replace("/", ".")}.jpg',
+            'path': os.path.join(
+                screenshots_dir,
+                request.node.nodeid.replace('/', '.') + '.jpg',
+            ),
         })
 
     await p.close()

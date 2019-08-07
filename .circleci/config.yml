@@ -27,7 +27,20 @@ jobs:
       - run:
           name: Run tests
           command: |
-            docker-compose -f compose/ci.yaml run --use-aliases --rm test.server pytest
+            docker-compose -f compose/ci.yaml run --use-aliases test.server pytest --junitxml=test-reports/junit.xml
+
+      - run:
+          name: Save test results
+          when: always
+          command: |
+            docker cp `docker-compose -f compose/ci.yaml ps -qa test.server`:/src/test-reports .
+
+      - store_test_results:
+          path: test-reports
+
+      - store_artifacts:
+          path: test-reports/screenshots
+          destination: screenshots
 
       - run:
           name: Save image

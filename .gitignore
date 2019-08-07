@@ -5,4 +5,4 @@ keys.tar
 .idea/
 yc.keys
 src/phonerepair/config/local.py
-src/core/tests/screenshots/
+src/test-reports/
