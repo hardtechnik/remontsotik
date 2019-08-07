@@ -18,7 +18,9 @@ docker run \
     ./manage.py collectstatic --noinput
 aws \
     --endpoint-url=https://storage.yandexcloud.net \
-    s3 cp --recursive ${STATIC_DIR} ${STATIC_BUCKET}
+    s3 cp \
+    --recursive ${STATIC_DIR} ${STATIC_BUCKET} \
+    --cache-control public,max-age=600
 
 openssl \
     aes-256-cbc \
