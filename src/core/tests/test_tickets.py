@@ -63,5 +63,4 @@ async def test_create_ticket(page, absolute_url, statuses, settings):
         f'https://{settings.DOMAIN}',
         reverse('admin:core_ticket_change', args=(ticket.id,)),
     )
-    raise Exception
     assert ticket_admin_url in sent_email.body
