@@ -61,5 +61,6 @@ jobs:
             export DOCKER_CERT_PATH=keys
             docker pull $IMAGE
             docker-compose -f compose/prod.yaml run --rm server bash -c './manage.py migrate && ./manage.py loaddata statuses'
+            docker-compose -f compose/prod.yaml down
             docker stack deploy --prune --compose-file compose/prod.yaml phonerepair
             docker system prune -f
