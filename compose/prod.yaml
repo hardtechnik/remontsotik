@@ -40,7 +40,7 @@ services:
   letsencrypt:
     cap_add:
       - NET_ADMIN
-    image: linuxserver/letsencrypt
+    image: linuxserver/letsencrypt:0.36.0-ls51
     environment:
       PUID: 1000
       PGID: 1000

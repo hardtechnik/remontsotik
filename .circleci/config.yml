@@ -1,0 +1,65 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.7.4
+
+    steps:
+      - checkout
+      - setup_remote_docker
+
+      - run:
+          name: Install dependencies
+          command: |
+            sudo pip install flake8 isort awscli
+
+      - run:
+          name: Run linters
+          command: |
+            flake8 .
+            isort -c
+
+      - run:
+          name: Build image
+          command: |
+            docker build . -t $IMAGE
+
+      - run:
+          name: Run tests
+          command: |
+            docker-compose -f compose/ci.yaml run --use-aliases --rm test.server pytest
+
+      - run:
+          name: Build static
+          command: |
+            docker create -v /static --name static alpine:3.4 /bin/true
+            docker run --name app --volumes-from static $IMAGE ./manage.py collectstatic --noinput
+            docker cp app:/static ./static
+
+      - run:
+          name: Upload static files
+          command: |
+            aws --endpoint-url=https://storage.yandexcloud.net s3 cp --recursive ./static s3://$STATIC_BUCKET --cache-control 'public,max-age=600'
+
+      - run:
+          name: Push image
+          command: |
+            echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USERNAME --password-stdin
+            docker push $IMAGE
+
+      - run:
+          name: Extract keys
+          command: |
+            openssl aes-256-cbc -pbkdf2 -d -in keys.tar.ci -out keys.tar -k $ENCRYPTION_KEY
+            tar xvf keys.tar
+
+      - run:
+          name: Run migrations and update services
+          command: |
+            export DOCKER_HOST=$REMOTE_DOCKER_HOST:2375
+            export DOCKER_TLS_VERIFY=1
+            export DOCKER_CERT_PATH=keys
+            docker pull $IMAGE
+            docker-compose -f compose/prod.yaml run --rm server bash -c './manage.py migrate && ./manage.py loaddata statuses'
+            docker stack deploy --prune --compose-file compose/prod.yaml phonerepair
+            docker system prune -f
