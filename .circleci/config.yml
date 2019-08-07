@@ -30,21 +30,17 @@ jobs:
             docker-compose -f compose/ci.yaml run --use-aliases --rm test.server pytest
 
       - run:
-          name: Build static
+          name: Build and upload static files
           command: |
             docker create -v /static --name static alpine:3.4 /bin/true
             docker run --name app --volumes-from static $IMAGE ./manage.py collectstatic --noinput
             docker cp app:/static ./static
-
-      - run:
-          name: Upload static files
-          command: |
             aws --endpoint-url=https://storage.yandexcloud.net s3 cp --recursive ./static s3://$STATIC_BUCKET --cache-control 'public,max-age=600'
 
       - run:
           name: Push image
           command: |
-            echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USERNAME --password-stdin
+            docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
             docker push $IMAGE
 
       - run:
