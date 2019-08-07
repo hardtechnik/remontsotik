@@ -48,6 +48,7 @@ CACHES = {
 }
 
 MIDDLEWARE = [
+    'core.middleware.security_headers',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',

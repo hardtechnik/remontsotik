@@ -28,6 +28,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'core.middleware.security_headers',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -118,3 +119,4 @@ ACCOUNT_ACTIVATION_DAYS = 7
 
 DEBUG = True
 CI = False
+S3_ENDPOINT = 'https://storage.yandexcloud.net'

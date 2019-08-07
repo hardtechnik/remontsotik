@@ -13,7 +13,7 @@ def client():
         aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
         aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
         region_name='ru-central1',
-        endpoint_url='https://storage.yandexcloud.net',
+        endpoint_url=settings.S3_ENDPOINT,
         config=botocore.client.Config(signature_version='s3v4'),
     )
 
