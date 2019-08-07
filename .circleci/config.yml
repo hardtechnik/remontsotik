@@ -50,7 +50,7 @@ jobs:
       - run:
           name: Extract keys
           command: |
-            openssl aes-256-cbc -pbkdf2 -d -in keys.tar.ci -out keys.tar -k $ENCRYPTION_KEY
+            openssl aes-256-cbc -pbkdf2 -d -in keys.tar.enc -out keys.tar -k $ENCRYPTION_KEY
             tar xvf keys.tar
 
       - run:
