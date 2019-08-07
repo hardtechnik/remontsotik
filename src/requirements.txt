@@ -7,3 +7,5 @@ boto3==1.9.200
 pyyaml==5.1.2
 pytest-asyncio==0.10.0
 pyppeteer==0.0.25
+django-redis-cache==2.0.0
+hiredis==1.0.0

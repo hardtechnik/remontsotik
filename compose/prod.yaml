@@ -17,7 +17,7 @@ services:
       - postgres
     restart: always
     environment:
-      DB_HOST: ${DB_HOST}
+      DB_HOST: postgres
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_NAME: ${DB_NAME}
@@ -28,6 +28,9 @@ services:
       SECRET_KEY: ${SECRET_KEY}
       SENDGRID_API_KEY: ${SENDGRID_API_KEY}
       DJANGO_SETTINGS_MODULE: phonerepair.config.prod
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_CACHE_DB: 1
     deploy:
       replicas: 2
       update_config:
@@ -51,5 +54,10 @@ services:
     volumes:
       - /home/hardtechnik/config:/config
     restart: unless-stopped
+    deploy:
+      mode: global
+
+  redis:
+    image: library/redis:5-alpine
     deploy:
       mode: global
