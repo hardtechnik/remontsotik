@@ -1,6 +1,9 @@
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+
+const DIST_DIR = path.join(__dirname, 'static');
 
 module.exports = {
   entry: {
@@ -8,7 +11,7 @@ module.exports = {
     'bundle.js': './src/main.js',
   },
   output: {
-    path: path.join(__dirname, 'static'),
+    path: DIST_DIR,
     filename: '[name]',
   },
   optimization: {
@@ -25,6 +28,17 @@ module.exports = {
            'sass-loader'
          ],
       },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: [
+          'file-loader'
+        ]
+      }
     ],
   },
+  plugins: [
+    new CopyPlugin([
+      { from: './src/img', to: DIST_DIR },
+    ])
+  ]
 };
