@@ -5,7 +5,7 @@
   <hr>
   <p>
     {{ ticket.status.description }} <br>
-    {% with link=request.build_absolute_uri %}
+    {% with link=request.build_absolute_uri() %}
       Вы всегда можете проверить состояние вашей заявки по ссылке <a href="{{ link }}">{{ link }}</a>
     {% endwith %}
   </p>

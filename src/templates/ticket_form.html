@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
-{% load static %}
 
 {% block scripts %}
-  <script src="{% static 'tickets.js' %}"></script>
+  <script src="{{ static('tickets.js') }}"></script>
 {% endblock %}
 
 {% block content %}
@@ -10,7 +9,7 @@
   <div class="offset-md-3 col-md-6">
     <h3 class="text-center">Заявка на ремонт телефона</h3>
     <form id="ticket-form" class="my-4" method="POST">
-      {% csrf_token %}
+      <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
       <div class="form-group">
         <label for="name">Ваше имя:</label>
         <input type="text" class="form-control" id="name"
