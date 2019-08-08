@@ -1,5 +1,6 @@
 import random
 
+from django.contrib.auth import get_user_model
 from django.db import IntegrityError, models
 from django.urls import reverse
 
@@ -114,3 +115,28 @@ class Image(models.Model):
 
     def __str__(self):
         return self.url
+
+
+class TicketComment(models.Model):
+    author = models.ForeignKey(
+        get_user_model(),
+        verbose_name='Автор',
+        on_delete=models.CASCADE,
+    )
+    text = models.TextField(verbose_name='Текст')
+    ticket = models.ForeignKey(
+        Ticket,
+        verbose_name='Заявка',
+        on_delete=models.CASCADE,
+    )
+    posted_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Время создания',
+    )
+
+    def __str__(self):
+        return f'#{self.ticket.number}'
+
+    class Meta:
+        verbose_name = 'Коментарий к заявке'
+        verbose_name_plural = 'Коментарии к заявке'

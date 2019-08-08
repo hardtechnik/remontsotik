@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from .models import Image, Status, Ticket
+from .models import Image, Status, Ticket, TicketComment
 from .s3 import get_presigned_url
 
 
@@ -26,6 +26,13 @@ class ImageInline(admin.StackedInline):
             return mark_safe(f'<img src="{url}" width="600" height=auto>')
 
 
+class TicketCommentInline(admin.StackedInline):
+    model = TicketComment
+    extra = 0
+    fields = ('author', 'text', 'posted_at')
+    readonly_fields = ('author', 'posted_at')
+
+
 @admin.register(Ticket)
 class TicketAdmin(admin.ModelAdmin):
     search_fields = ('number', 'name')
@@ -40,10 +47,21 @@ class TicketAdmin(admin.ModelAdmin):
         'created',
     )
     date_hierarchy = 'created'
-    inlines = (ImageInline, )
+    inlines = (ImageInline, TicketCommentInline)
 
     def get_queryset(self, request):
         return super().get_queryset(request).select_related('status')
+
+    def save_formset(self, request, form, formset, change):
+        if formset.model != TicketComment:
+            return super().save_formset(request, form, formset, change)
+
+        instances = formset.save(commit=False)
+        for instance in instances:
+            if not instance.pk:
+                instance.author = request.user
+            instance.save()
+        formset.save_m2m()
 
 
 admin.site.site_title = 'Ремонт Сотик'
