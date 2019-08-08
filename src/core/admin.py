@@ -44,3 +44,7 @@ class TicketAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         return super().get_queryset(request).select_related('status')
+
+
+admin.site.site_title = 'Ремонт Сотик'
+admin.site.site_header = 'Ремонт Сотик'
