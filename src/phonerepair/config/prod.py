@@ -3,7 +3,6 @@ import os
 from .base import *  # noqa
 
 
-# SECURITY WARNING: don't run with debug turned on in production!
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = False

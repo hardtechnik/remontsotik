@@ -27,13 +27,15 @@ jobs:
       - run:
           name: Run tests
           command: |
-            docker-compose -f compose/ci.yaml run --use-aliases test.server pytest --junitxml=test-reports/junit.xml
+            docker-compose -f compose/ci.yaml run --use-aliases test.server \
+              pytest --junitxml=test-reports/junit.xml
 
       - run:
           name: Save test results
           when: always
           command: |
-            docker cp `docker-compose -f compose/ci.yaml ps -qa test.server`:/src/test-reports .
+            docker cp `docker-compose -f compose/ci.yaml \
+              ps -qa test.server`:/src/test-reports .
 
       - store_test_results:
           path: test-reports
@@ -84,7 +86,9 @@ jobs:
               (cd frontend && npm install && npm run-script build) \
               && ./manage.py collectstatic --noinput'
             docker cp app:/static ./static
-            aws --endpoint-url=https://storage.yandexcloud.net s3 cp --recursive ./static s3://$STATIC_BUCKET --cache-control 'public,max-age=600'
+            aws --endpoint-url=https://storage.yandexcloud.net s3 cp \
+              --recursive ./static s3://$STATIC_BUCKET \
+              --cache-control 'public,max-age=600'
 
       - run:
           name: Push image
@@ -95,7 +99,9 @@ jobs:
       - run:
           name: Extract keys
           command: |
-            openssl aes-256-cbc -pbkdf2 -d -in /tmp/build/keys.tar.enc -out keys.tar -k $ENCRYPTION_KEY
+            openssl aes-256-cbc -pbkdf2 -d \
+              -in /tmp/build/keys.tar.enc \
+              -out keys.tar -k $ENCRYPTION_KEY
             tar xvf keys.tar
 
       - run:
@@ -105,9 +111,12 @@ jobs:
             export DOCKER_TLS_VERIFY=1
             export DOCKER_CERT_PATH=keys
             docker pull $IMAGE
-            docker-compose -f /tmp/build/compose/prod.yaml run --rm server bash -c './manage.py migrate && ./manage.py loaddata statuses'
+            docker-compose -f /tmp/build/compose/prod.yaml run --rm env \
+            docker-compose -f /tmp/build/compose/prod.yaml run --rm server \
+              bash -c './manage.py migrate && ./manage.py loaddata statuses'
             docker-compose -f /tmp/build/compose/prod.yaml down
-            docker stack deploy --prune --compose-file /tmp/build/compose/prod.yaml phonerepair
+            docker stack deploy --prune \
+              --compose-file /tmp/build/compose/prod.yaml phonerepair
             docker system prune -f
 
 workflows:
