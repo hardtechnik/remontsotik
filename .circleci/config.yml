@@ -59,6 +59,7 @@ jobs:
       - image: circleci/python:3.7.4
 
     steps:
+      - checkout
       - attach_workspace:
           at: /tmp/build
 
@@ -96,7 +97,7 @@ jobs:
       - run:
           name: Extract keys
           command: |
-            openssl aes-256-cbc -pbkdf2 -d -in /tmp/build/keys.tar.enc -out keys.tar -k $ENCRYPTION_KEY
+            openssl aes-256-cbc -pbkdf2 -d -in keys.tar.enc -out keys.tar -k $ENCRYPTION_KEY
             tar xvf keys.tar
 
       - run:
@@ -106,9 +107,9 @@ jobs:
             export DOCKER_TLS_VERIFY=1
             export DOCKER_CERT_PATH=keys
             docker pull $IMAGE
-            docker-compose -f /tmp/build/compose/prod.yaml run --rm server bash -c './manage.py migrate && ./manage.py loaddata statuses'
-            docker-compose -f /tmp/build/compose/prod.yaml down
-            docker stack deploy --prune --compose-file /tmp/build/compose/prod.yaml phonerepair
+            docker-compose -f compose/prod.yaml run --rm server bash -c './manage.py migrate && ./manage.py loaddata statuses'
+            docker-compose -f compose/prod.yaml down
+            docker stack deploy --prune --compose-file compose/prod.yaml phonerepair
             docker system prune -f
 
 workflows:
