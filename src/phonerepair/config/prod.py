@@ -10,7 +10,7 @@ DEBUG = False
 DOMAIN = os.getenv('DOMAIN')
 ALLOWED_HOSTS = [DOMAIN]
 
-STATIC_URL = 'https://storage.yandexcloud.net/remontsotik/static/'
+STATIC_URL = 'https://storage.yandexcloud.net/remontsotik/'
 
 DATABASES = {
     'default': {
