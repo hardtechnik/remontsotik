@@ -115,6 +115,7 @@ jobs:
               bash -c './manage.py migrate && ./manage.py loaddata statuses'
             docker-compose -f /tmp/build/compose/prod.yaml down
             docker stack deploy --prune \
+              --resolve-image always \
               --compose-file /tmp/build/compose/prod.yaml phonerepair
             docker system prune -f
 
