@@ -2,31 +2,7 @@
 {% load static %}
 
 {% block scripts %}
-  <script src="{% static 'js/FileUploader.js' %}"></script>
-  <script src="{% static 'js/TicketForm.js' %}"></script>
-  <script>
-    const signUrl = "{% url 'sign_file' %}";
-    document.addEventListener("DOMContentLoaded", function() {
-      const uploader = new FileUploader(
-        document.getElementsByClassName('FileUploader')[0],
-        signUrl,
-      );
-      new TicketForm(document.getElementById('ticket-form'), uploader);
-    });
-  </script>
-{% endblock %}
-
-{% block styles %}
-  <style>
-    input#phone-number {
-      -moz-appearance:textfield;
-    }
-    input#phone-number::-webkit-outer-spin-button,
-    input#phone-number::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-  </style>
+  <script src="{% static 'tickets.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -68,10 +44,11 @@
         <label for="phone-number">Номер телефона для связи:</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text icon">+7</span>
+            <span class="input-group-text">+7</span>
           </div>
-          <input type="number" name="phone_number" class="form-control"
-                 id="phone-number" required placeholder="1234567890">
+          <input type="number" name="phone_number"
+                 class="form-control no-arrows" id="phone-number" required
+                 placeholder="1234567890">
         </div>
         <small id="phone-number-help" class="form-text text-muted">
           Мы свяжемся с вами по указанному номеру

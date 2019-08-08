@@ -1,0 +1,27 @@
+@import "variables";
+
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+@import "~bootstrap/scss/buttons";
+@import "~bootstrap/scss/close";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/forms";
+@import "~bootstrap/scss/input-group";
+@import "~bootstrap/scss/list-group";
+@import "~bootstrap/scss/nav";
+@import "~bootstrap/scss/navbar";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/spinners";
+@import "~bootstrap/scss/type";
+@import "~bootstrap/scss/utilities";
+
+.no-arrows {
+  -moz-appearance:textfield;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
