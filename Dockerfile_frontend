@@ -1,6 +1,7 @@
 FROM rkashapov/remontsotik:latest
 
-RUN set -x \
-    && apt-get update && apt-get install -y --no-install-recommends \
+RUN apt update && apt install -y curl
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
+    && apt install -y --no-install-recommends \
         nodejs npm \
     && rm -rf /var/lib/apt/lists/*

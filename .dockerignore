@@ -11,3 +11,4 @@ __pycache__
 static/
 env
 src/test-reports/
+src/frontend/node_modules/

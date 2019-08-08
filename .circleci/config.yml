@@ -53,13 +53,13 @@ jobs:
             - app-image.tar
             - keys.tar.enc
             - compose/prod.yaml
+            - Dockerfile_frontend
 
   deploy:
     docker:
       - image: circleci/python:3.7.4
 
     steps:
-      - checkout
       - attach_workspace:
           at: /tmp/build
 
@@ -78,13 +78,11 @@ jobs:
       - run:
           name: Build and upload static files
           command: |
-            docker build -f Dockerfile_frontend -t frontend
+            docker build . -f /tmp/build/Dockerfile_frontend -t frontend
             docker create -v /static --name static alpine:3.4 /bin/true
-            docker run --name app --volumes-from static frontend \
-              cd frontend \
-              && npm install \
-              && npm build \
-              && ./manage.py collectstatic --noinput
+            docker run --name app --volumes-from static frontend bash -c '
+              (cd frontend && npm install  && npm build) \
+              && ./manage.py collectstatic --noinput'
             docker cp app:/static ./static
             aws --endpoint-url=https://storage.yandexcloud.net s3 cp --recursive ./static s3://$STATIC_BUCKET --cache-control 'public,max-age=600'
 
@@ -97,7 +95,7 @@ jobs:
       - run:
           name: Extract keys
           command: |
-            openssl aes-256-cbc -pbkdf2 -d -in keys.tar.enc -out keys.tar -k $ENCRYPTION_KEY
+            openssl aes-256-cbc -pbkdf2 -d -in /tmp/build/keys.tar.enc -out keys.tar -k $ENCRYPTION_KEY
             tar xvf keys.tar
 
       - run:
@@ -107,9 +105,9 @@ jobs:
             export DOCKER_TLS_VERIFY=1
             export DOCKER_CERT_PATH=keys
             docker pull $IMAGE
-            docker-compose -f compose/prod.yaml run --rm server bash -c './manage.py migrate && ./manage.py loaddata statuses'
-            docker-compose -f compose/prod.yaml down
-            docker stack deploy --prune --compose-file compose/prod.yaml phonerepair
+            docker-compose -f /tmp/build/compose/prod.yaml run --rm server bash -c './manage.py migrate && ./manage.py loaddata statuses'
+            docker-compose -f /tmp/build/compose/prod.yaml down
+            docker stack deploy --prune --compose-file /tmp/build/compose/prod.yaml phonerepair
             docker system prune -f
 
 workflows:
