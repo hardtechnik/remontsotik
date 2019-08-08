@@ -19,10 +19,16 @@ class Status(models.Model):
         verbose_name='Описание',
         help_text='Этот текст будет отображаться клиенту при просмотре заявки',
     )
+    ordering = models.PositiveSmallIntegerField(
+        verbose_name='Позиция',
+        default=1,
+        blank=True,
+    )
 
     class Meta:
         verbose_name = 'Статус'
         verbose_name_plural = 'Статусы'
+        ordering = ('-ordering',)
 
     def __str__(self):
         return self.name
@@ -76,6 +82,7 @@ class Ticket(models.Model):
     class Meta:
         verbose_name = 'Заявка'
         verbose_name_plural = 'Заявки'
+        ordering = ('-created',)
 
     def __str__(self):
         return self.number
@@ -140,3 +147,4 @@ class TicketComment(models.Model):
     class Meta:
         verbose_name = 'Коментарий к заявке'
         verbose_name_plural = 'Коментарии к заявке'
+        ordering = ('posted_at',)
