@@ -81,7 +81,7 @@ jobs:
             docker build . -f /tmp/build/Dockerfile_frontend -t frontend
             docker create -v /static --name static alpine:3.4 /bin/true
             docker run --name app --volumes-from static frontend bash -c '
-              (cd frontend && npm install  && npm build) \
+              (cd frontend && npm install && npm run-script build) \
               && ./manage.py collectstatic --noinput'
             docker cp app:/static ./static
             aws --endpoint-url=https://storage.yandexcloud.net s3 cp --recursive ./static s3://$STATIC_BUCKET --cache-control 'public,max-age=600'
