@@ -18,8 +18,10 @@
   {% block styles %}{% endblock %}
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-between">
-    <a href="/" class="navbar-brand">Ремонт Сотик</a>
+  <nav class="navbar navbar-dark bg-dark d-flex justify-content-center">
+    <a class="navbar-brand" href="#">
+      <img src="{{ static('logo.svg') }}" class="logo" alt="">
+    </a>
   </nav>
   <div class="container">
   {% block content %}{% endblock %}
