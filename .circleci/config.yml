@@ -111,7 +111,6 @@ jobs:
             export DOCKER_TLS_VERIFY=1
             export DOCKER_CERT_PATH=keys
             docker pull $IMAGE
-            docker-compose -f /tmp/build/compose/prod.yaml run --rm env \
             docker-compose -f /tmp/build/compose/prod.yaml run --rm server \
               bash -c './manage.py migrate && ./manage.py loaddata statuses'
             docker-compose -f /tmp/build/compose/prod.yaml down
