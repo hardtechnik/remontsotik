@@ -13,14 +13,14 @@
   <row>
     <columns small="12">
       <h2>
-        \{% if ticket.name  %}
+        {% if ticket.name  %}
           Здравствуйте, \{{ ticket.name }}!
-        \{% else %}
+        {% else %}
           Здравствуйте!
-        \{% endif %}
+        {% endif %}
       </h2>
       <p class="lead">\{{ ticket.status.description }}</p>
-      <p>Вы можете проверить состояние вашей заявки в любое время воспользовавшись ссылкой <a>\{{ link }}</a></p>
+      <p>Вы можете проверить состояние вашей заявки в любое время воспользовавшись ссылкой <a href="\{{ link }}">\{{ link }}</a></p>
       <br>
     </columns>
   </row>
