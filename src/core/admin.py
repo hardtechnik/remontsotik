@@ -37,7 +37,7 @@ class TicketCommentInline(admin.StackedInline):
 class TicketAdmin(admin.ModelAdmin):
     search_fields = ('number', 'name')
     list_filter = ('status__name',)
-    readonly_fields = ('number',)
+    readonly_fields = ('number', 'created')
     list_display = (
         'number',
         'status',
