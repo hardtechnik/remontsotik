@@ -9,9 +9,6 @@ cache:
 services:
   - docker
 
-matrix:
-  fast_finish: true
-
 jobs:
   include:
     - stage: test
@@ -32,6 +29,7 @@ jobs:
         - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         - docker save -o "$CACHED_APP_IMAGE" $IMAGE
       script:
+        - set -e
         - |
           docker-compose \
             -f compose/ci.yaml \
@@ -55,6 +53,7 @@ jobs:
       before_script:
         - docker pull $IMAGE
       script:
+        - set -e
         - cd src/frontend
         - npm install && npm run-script build
         - mkdir static-ready
@@ -87,6 +86,7 @@ jobs:
         - tar xvf keys.tar
         - docker pull $IMAGE
       script:
+        - set -e
         - |
           docker-compose -f compose/prod.yaml run --rm server \
             bash -c './manage.py migrate && ./manage.py loaddata statuses'
