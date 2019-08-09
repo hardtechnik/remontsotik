@@ -56,12 +56,10 @@ jobs:
         - set -e
         - cd src/frontend
         - npm install && npm run-script build
-        - mkdir static-ready
         - |
-          docker run --rm \
-            -v static-ready:/static \
-            -v dist:/src/frontend/dist \
+          docker run --name static -v dist:/src/frontend/dist \
             $IMAGE ./manage.py collectstatic --noinput
+        - docker cp static:/static static-ready
         - |
           aws --endpoint-url=https://storage.yandexcloud.net s3 cp \
             --recursive ./static-ready $STATIC_BUCKET \
