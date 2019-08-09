@@ -37,6 +37,30 @@ services:
         delay: 5s
         failure_action: rollback
 
+  worker:
+    image: ${IMAGE}
+    depends_on:
+      - postgres
+    restart: always
+    environment:
+      DB_HOST: postgres
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      DOMAIN: ${DEPLOY_HOST}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      PRIVATE_BUCKET: ${PRIVATE_BUCKET}
+      SECRET_KEY: ${SECRET_KEY}
+      SENDGRID_API_KEY: ${SENDGRID_API_KEY}
+      DJANGO_SETTINGS_MODULE: phonerepair.config.prod
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_CACHE_DB: 1
+    command: celery -A phonerepair worker -l info
+    deploy:
+      replicas: 1
+
   letsencrypt:
     cap_add:
       - NET_ADMIN

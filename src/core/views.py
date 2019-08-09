@@ -3,7 +3,6 @@ import uuid
 from urllib.parse import urljoin
 
 from django.conf import settings
-from django.core.mail import mail_managers, send_mail
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
@@ -14,6 +13,8 @@ from django.views.generic import CreateView
 from .forms import TicketForm
 from .models import Ticket
 from .s3 import client as s3_client
+
+from .tasks import mail_managers, send_mail
 
 
 class CreateTicketView(CreateView):
@@ -26,7 +27,7 @@ class CreateTicketView(CreateView):
             ticket.images.create(url=url)
         admin_link = reverse('admin:core_ticket_change', args=(ticket.pk,))
         admin_link = urljoin('https://'+settings.DOMAIN, admin_link)
-        mail_managers(
+        mail_managers.delay(
             'Новая заявка',
             message=f'Поступила новая заявка: {admin_link}',
             html_message=f'Поступила новая заявка: '
@@ -39,7 +40,7 @@ class CreateTicketView(CreateView):
             subject = f'Заявка №{ticket.number}'
             context = {'ticket': ticket, 'link': link, 'subject': subject}
             message = render_to_string('dist/new-ticket.html', context)
-            send_mail(
+            send_mail.delay(
                 subject,
                 ticket.status.description,
                 'Ремонт Сотик <noreply@remontsotik.com>',

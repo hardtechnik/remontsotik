@@ -131,3 +131,5 @@ ACCOUNT_ACTIVATION_DAYS = 7
 DEBUG = True
 CI = False
 S3_ENDPOINT = 'https://storage.yandexcloud.net'
+
+CELERY_TASK_ALWAYS_EAGER = True

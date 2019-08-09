@@ -6,6 +6,11 @@ from sentry_sdk.integrations.django import DjangoIntegration
 from .base import *  # noqa
 
 
+sentry_sdk.init(
+    dsn="https://372dfc07100b440589ff044789f2a637@sentry.io/1526451",
+    integrations=[DjangoIntegration()]
+)
+
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = False
@@ -66,7 +71,5 @@ MANAGERS = [
 
 CSRF_COOKIE_SECURE = True
 
-sentry_sdk.init(
-    dsn="https://372dfc07100b440589ff044789f2a637@sentry.io/1526451",
-    integrations=[DjangoIntegration()]
-)
+CELERY_BROKER_URL = f'redis://{REDIS_HOST}@{REDIS_PORT}/2'
+CELERY_TASK_ALWAYS_EAGER = False
