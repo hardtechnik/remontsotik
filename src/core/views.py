@@ -13,7 +13,6 @@ from django.views.generic import CreateView
 from .forms import TicketForm
 from .models import Ticket
 from .s3 import client as s3_client
-
 from .tasks import mail_managers, send_mail
 
 
