@@ -32,7 +32,6 @@ class CreateTicketView(CreateView):
             message=f'Поступила новая заявка: {admin_link}',
             html_message=f'Поступила новая заявка: '
                     f'<a href="{admin_link}">№{ticket.number}</a>',
-            fail_silently=True,
         )
 
         if ticket.email:
@@ -46,7 +45,6 @@ class CreateTicketView(CreateView):
                 'Ремонт Сотик <noreply@remontsotik.com>',
                 [ticket.email],
                 html_message=message,
-                fail_silently=True,
             )
 
         return redirect(ticket.get_absolute_url())
