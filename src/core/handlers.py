@@ -14,7 +14,6 @@ def set_previous_state_id(instance, **kwargs):
 
 @receiver(post_save, sender=Ticket, dispatch_uid="send_status_update")
 def send_status_update(instance, created, **kwargs):
-
     def on_commit():
         if created:
             send_new_ticket_created_email.delay(instance.id)

@@ -1,4 +1,5 @@
 from asyncio import gather
+from unittest.mock import patch
 from urllib.parse import urljoin
 
 from django.core import mail
@@ -79,6 +80,7 @@ def test_ticket_detail_view(client, status_new):
 
 
 @pytest.mark.django_db
+@patch('django.db.transaction.on_commit', lambda f: f())
 def test_email_is_sent_on_status_change(status_new):
     assert len(mail.outbox) == 0
 
