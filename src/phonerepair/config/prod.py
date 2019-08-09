@@ -1,6 +1,7 @@
 import os
 
 import sentry_sdk
+from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 
 from .base import *  # noqa
@@ -8,7 +9,7 @@ from .base import *  # noqa
 
 sentry_sdk.init(
     dsn="https://372dfc07100b440589ff044789f2a637@sentry.io/1526451",
-    integrations=[DjangoIntegration()]
+    integrations=[CeleryIntegration(), DjangoIntegration()]
 )
 
 SECRET_KEY = os.getenv('SECRET_KEY')
