@@ -5,10 +5,7 @@ from django.core import mail
 from django.urls import reverse
 
 import pytest
-from core.models import Ticket
-
-
-pytestmark = pytest.mark.asyncio
+from core.models import Status, Ticket
 
 
 async def fill_input(page, selector, value):
@@ -16,6 +13,7 @@ async def fill_input(page, selector, value):
     await field.type(value)
 
 
+@pytest.mark.asyncio
 @pytest.mark.django_db
 async def test_create_ticket(page, absolute_url, statuses, settings):
     tickets = Ticket.objects.all()
@@ -57,6 +55,7 @@ async def test_create_ticket(page, absolute_url, statuses, settings):
     assert ticket.email == email
     assert ticket.address == address
 
+    assert len(mail.outbox) == 2
     mail_to_managers = mail.outbox[0]
     assert mail_to_managers.to == ['manager@mail.com']
     ticket_admin_url = urljoin(
@@ -69,3 +68,32 @@ async def test_create_ticket(page, absolute_url, statuses, settings):
     assert mail_to_user.to == [email]
     assert mail_to_user.subject == f'Заявка №{ticket.number}'
     assert ticket.status.description in mail_to_user.body
+
+
+@pytest.mark.django_db
+def test_ticket_detail_view(client, status_new):
+    ticket = Ticket.objects.create(status=status_new, phone_number='9192223322')
+    r = client.get(reverse('ticket_detail', kwargs={'number': ticket.number}))
+    assert r.status_code == 200
+    assert ticket.number in r.content.decode()
+
+
+@pytest.mark.django_db
+def test_email_is_sent_on_status_change(status_new):
+    assert len(mail.outbox) == 0
+
+    ticket = Ticket.objects.create(
+        status=status_new,
+        phone_model='1234567890',
+        email='customer@mail.com',
+    )
+
+    assert len(mail.outbox) == 1
+
+    status_approved = Status.objects.create(name='approved', description='foo')
+    ticket.status = status_approved
+    ticket.save(update_fields=['status'])
+
+    assert len(mail.outbox) == 2
+    email = mail.outbox[1]
+    assert 'foo' in email.body

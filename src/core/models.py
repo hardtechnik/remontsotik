@@ -39,6 +39,7 @@ class Ticket(models.Model):
         Status,
         verbose_name='Статус',
         on_delete=models.PROTECT,
+        help_text='ВНИМАНИЕ! При смене статуса клиенту будет отправлен имейл',
     )
     name = models.CharField(
         max_length=100,

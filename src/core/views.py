@@ -1,19 +1,15 @@
 import posixpath
 import uuid
-from urllib.parse import urljoin
 
 from django.conf import settings
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, redirect, render
-from django.template.loader import render_to_string
-from django.urls import reverse
+from django.shortcuts import redirect
 from django.views.decorators.http import require_POST
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView
 
 from .forms import TicketForm
 from .models import Ticket
 from .s3 import client as s3_client
-from .tasks import mail_managers, send_mail
 
 
 class CreateTicketView(CreateView):
@@ -24,37 +20,15 @@ class CreateTicketView(CreateView):
         ticket = form.save()
         for url in self.request.POST.getlist('images'):
             ticket.images.create(url=url)
-        admin_link = reverse('admin:core_ticket_change', args=(ticket.pk,))
-        admin_link = urljoin('https://'+settings.DOMAIN, admin_link)
-        mail_managers.delay(
-            'Новая заявка',
-            message=f'Поступила новая заявка: {admin_link}',
-            html_message=f'Поступила новая заявка: '
-                    f'<a href="{admin_link}">№{ticket.number}</a>',
-        )
-
-        if ticket.email:
-            subject = f'Заявка №{ticket.number}'
-            context = {'ticket': ticket, 'subject': subject}
-            message = render_to_string('dist/new-ticket.html', context)
-            send_mail.delay(
-                subject,
-                ticket.status.description,
-                'Ремонт Сотик <noreply@remontsotik.com>',
-                [ticket.email],
-                html_message=message,
-            )
-
         return redirect(ticket.get_absolute_url())
 
 
-def ticket_detail_view(request, number):
-    ticket = get_object_or_404(
-        Ticket.objects.select_related('status'),
-        number=number,
-    )
-    context = {'ticket': ticket}
-    return render(request, 'ticket.html', context=context)
+class TicketDetailView(DetailView):
+    queryset = Ticket.objects.select_related('status')
+    template_name = 'ticket.html'
+    context_object_name = 'ticket'
+    slug_url_kwarg = 'number'
+    slug_field = 'number'
 
 
 @require_POST

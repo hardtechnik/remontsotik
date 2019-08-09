@@ -9,10 +9,17 @@ import pyppeteer
 import pytest
 from pytest_django.live_server_helper import LiveServer
 
+from .models import Status
+
 
 @pytest.fixture
 def statuses():
     call_command('loaddata', 'statuses')
+
+
+@pytest.fixture
+def status_new(statuses):
+    return Status.objects.get(id=1)
 
 
 @pytest.fixture

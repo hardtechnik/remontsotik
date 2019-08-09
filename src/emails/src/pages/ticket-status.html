@@ -1,17 +1,8 @@
-<wrapper class="header">
-  <container>
-    <row class="collapse">
-      <center>
-        <img src="\{{ absolute_url(static('img/logo.png')) }}" width="96" height="96" alt="">
-      </center>
-    </row>
-  </container>
-</wrapper>
-
 <container>
   <spacer size="16"></spacer>
   <row>
     <columns small="12">
+      {% if ticket.status.id == 1 %}
       <h3>
         {% if ticket.name  %}
           Здравствуйте, \{{ ticket.name }}!
@@ -19,6 +10,9 @@
           Здравствуйте!
         {% endif %}
       </h3>
+      {% elif ticket.name %}
+        <h3>\{{ ticket.name }}</h3>
+      {% endif %}
       <p>\{{ ticket.status.description }}</p>
     {% with link=absolute_url(ticket.get_absolute_url()) %}
       <p>Вы можете проверить состояние вашей заявки в любое время воспользовавшись ссылкой <a href="\{{ link }}">\{{ link }}</a></p>

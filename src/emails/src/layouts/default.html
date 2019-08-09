@@ -17,8 +17,19 @@
       <tr>
         <td class="center" align="center" valign="top">
           <center>
-            {{!-- Pages you create in the src/pages/ folder are inserted here when the flattened emails are created. --}}
+
+            <wrapper class="header">
+              <container>
+                <row class="collapse">
+                  <center>
+                    <img src="\{{ absolute_url(static('img/logo.png')) }}" width="96" height="96" alt="">
+                  </center>
+                </row>
+              </container>
+            </wrapper>
+
             {{> body}}
+
           </center>
         </td>
       </tr>
