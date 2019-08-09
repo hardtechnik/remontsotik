@@ -90,4 +90,5 @@ jobs:
         - docker-compose -f compose/prod.yaml down
         - docker stack deploy --prune --compose-file compose/prod.yaml phonerepair
         - docker service update phonerepair_server --image $IMAGE
+        - docker service update phonerepair_worker --image $IMAGE
         - docker system prune -f
