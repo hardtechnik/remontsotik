@@ -10,3 +10,4 @@ pyppeteer==0.0.25
 django-redis-cache==2.0.0
 hiredis==1.0.0
 jinja2==2.10.1
+uwsgi==2.0.18
