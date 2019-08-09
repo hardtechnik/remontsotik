@@ -3,9 +3,10 @@ import uuid
 from urllib.parse import urljoin
 
 from django.conf import settings
-from django.core.mail import mail_managers
+from django.core.mail import mail_managers, send_mail
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.template.loader import get_template, render_to_string
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.views.generic import CreateView
@@ -32,6 +33,21 @@ class CreateTicketView(CreateView):
                     f'<a href="{admin_link}">№{ticket.number}</a>',
             fail_silently=True,
         )
+
+        if ticket.email:
+            link = 'https://' + settings.DOMAIN + ticket.get_absolute_url()
+            subject = f'Заявка №{ticket.number}'
+            context = {'ticket': ticket, 'link': link, 'subject': subject}
+            message = render_to_string('dist/new-ticket.html', context)
+            send_mail(
+                subject,
+                ticket.status.description,
+                'Ремонт Сотик <noreply@remontsotik.com>',
+                [ticket.email],
+                html_message=message,
+                fail_silently=True,
+            )
+
         return redirect(ticket.get_absolute_url())
 
 

@@ -57,10 +57,15 @@ async def test_create_ticket(page, absolute_url, statuses, settings):
     assert ticket.email == email
     assert ticket.address == address
 
-    sent_email = mail.outbox[0]
-    assert sent_email.to == ['manager@mail.com']
+    mail_to_managers = mail.outbox[0]
+    assert mail_to_managers.to == ['manager@mail.com']
     ticket_admin_url = urljoin(
         f'https://{settings.DOMAIN}',
         reverse('admin:core_ticket_change', args=(ticket.id,)),
     )
-    assert ticket_admin_url in sent_email.body
+    assert ticket_admin_url in mail_to_managers.body
+
+    mail_to_user = mail.outbox[1]
+    assert mail_to_user.to == [email]
+    assert mail_to_user.subject == f'Заявка №{ticket.number}'
+    assert ticket.status.description in mail_to_user.body
