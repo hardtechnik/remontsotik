@@ -9,7 +9,7 @@ from jinja2 import Environment
 
 def inline(src, mime):
     with open(finders.find(src), 'rb') as f:
-        content = base64.b64encode(f.read())
+        content = base64.b64encode(f.read()).encode()
     return f'data:{mime};base64,{content}'
 
 
