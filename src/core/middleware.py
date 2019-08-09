@@ -1,4 +1,3 @@
-from django.conf import settings
 
 
 def security_headers(get_response):
