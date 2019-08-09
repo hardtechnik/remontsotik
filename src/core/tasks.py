@@ -7,16 +7,14 @@ from django.urls import reverse
 
 from phonerepair.celery import app
 
-from .models import Status, Ticket
+from .models import Ticket
 
 
 @app.task(ignore_result=True)
-def send_status_email(ticket_id, status_id):
+def send_status_email(ticket_id):
     ticket = Ticket.objects.exclude(email='').filter(id=ticket_id).first()
     if not ticket:
         return
-
-    ticket.status = Status.objects.get(id=status_id)
 
     subject = f'Заявка №{ticket.number}'
     context = {'ticket': ticket, 'subject': subject}
