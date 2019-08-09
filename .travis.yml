@@ -9,6 +9,9 @@ cache:
 services:
   - docker
 
+matrix:
+  fast_finish: true
+
 jobs:
   include:
     - stage: test
