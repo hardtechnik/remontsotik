@@ -6,4 +6,4 @@ keys.tar
 yc.keys
 src/phonerepair/config/local.py
 src/test-reports/
-src/frontend/static
+src/frontend/static/*.js
