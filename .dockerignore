@@ -12,3 +12,4 @@ static/
 env
 src/test-reports/
 src/frontend/node_modules/
+src/emails/node_modules/

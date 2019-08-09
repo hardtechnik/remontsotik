@@ -12,14 +12,14 @@
   <spacer size="16"></spacer>
   <row>
     <columns small="12">
-      <h2>
+      <h3>
         {% if ticket.name  %}
           Здравствуйте, \{{ ticket.name }}!
         {% else %}
           Здравствуйте!
         {% endif %}
-      </h2>
-      <p class="lead">\{{ ticket.status.description }}</p>
+      </h3>
+      <p>\{{ ticket.status.description }}</p>
       <p>Вы можете проверить состояние вашей заявки в любое время воспользовавшись ссылкой <a href="\{{ link }}">\{{ link }}</a></p>
       <br>
     </columns>
