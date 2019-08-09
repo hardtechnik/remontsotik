@@ -2,7 +2,7 @@
   <container>
     <row class="collapse">
       <center>
-        <img src="\{{ static('img/logo.png') }}" width="96" height="96" alt="">
+        <img src="\{{ absolute_url(static('img/logo.png')) }}" width="96" height="96" alt="">
       </center>
     </row>
   </container>
@@ -20,7 +20,9 @@
         {% endif %}
       </h3>
       <p>\{{ ticket.status.description }}</p>
+    {% with link=absolute_url(ticket.get_absolute_url()) %}
       <p>Вы можете проверить состояние вашей заявки в любое время воспользовавшись ссылкой <a href="\{{ link }}">\{{ link }}</a></p>
+    {% endwith %}
       <br>
     </columns>
   </row>

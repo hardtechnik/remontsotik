@@ -34,9 +34,8 @@ class CreateTicketView(CreateView):
         )
 
         if ticket.email:
-            link = 'https://' + settings.DOMAIN + ticket.get_absolute_url()
             subject = f'Заявка №{ticket.number}'
-            context = {'ticket': ticket, 'link': link, 'subject': subject}
+            context = {'ticket': ticket, 'subject': subject}
             message = render_to_string('dist/new-ticket.html', context)
             send_mail.delay(
                 subject,
