@@ -1,2 +1,2 @@
 # remontsotik
-[![CircleCI](https://circleci.com/gh/hardtechnik/remontsotik/tree/master.svg?style=svg&circle-token=9180e299c927de8aa1c9b69b780f483dab928896)](https://circleci.com/gh/hardtechnik/remontsotik/tree/master)
+<img src="https://travis-ci.org/hardtechnik/remontsotik.svg?branch=master" />
