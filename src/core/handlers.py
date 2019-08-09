@@ -16,4 +16,4 @@ def send_status_update(instance, created, **kwargs):
     if created:
         send_new_ticket_created_email.delay(instance.id)
     if instance.status_id != instance.previous_status_id:
-        send_status_email.delay(instance.id)
+        send_status_email.delay(instance.id, instance.status_id)
