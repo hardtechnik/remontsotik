@@ -60,7 +60,7 @@ jobs:
         - |
           docker run --rm \
             -v static-ready:/static \
-            -v static:/src/frontend/static \
+            -v dist:/src/frontend/dist \
             $IMAGE ./manage.py collectstatic --noinput
         - |
           aws --endpoint-url=https://storage.yandexcloud.net s3 cp \

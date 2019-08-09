@@ -8,7 +8,6 @@ __pycache__
 *.pyd
 .Python
 .idea/
-static/
 env
 src/test-reports/
 src/frontend/node_modules/

@@ -2,7 +2,7 @@ const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-const DIST_DIR = path.join(__dirname, 'static');
+const DIST_DIR = path.join(__dirname, 'dist');
 
 module.exports = {
   entry: {
