@@ -2,7 +2,7 @@ FROM python:3.7.4-slim-stretch
 
 ENV PYTHONUNBUFFERED=1
 
-ADD ./src/requirements.txt /tmp/requirements.txt
+ADD ./requirements.txt /tmp/requirements.txt
 
 RUN set -x \
     && buildDeps='gcc libc-dev' \
