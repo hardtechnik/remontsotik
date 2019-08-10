@@ -17,7 +17,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = False
 
 DOMAIN = os.getenv('DOMAIN')
-ALLOWED_HOSTS = [DOMAIN]
+ALLOWED_HOSTS = [DOMAIN, f'www.{DOMAIN}']
 
 DATABASES = {
     'default': {
