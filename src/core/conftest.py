@@ -1,3 +1,4 @@
+import asyncio
 import os
 from urllib.parse import urljoin
 
@@ -22,17 +23,23 @@ def status_new(statuses):
     return Status.objects.get(id=1)
 
 
-@pytest.fixture
-async def browser(event_loop):
+@pytest.fixture(scope='session')
+def event_loop():
+    loop = asyncio.get_event_loop()
+    yield loop
+    loop.close()
+
+
+@pytest.fixture(scope='session')
+async def browser():
     if settings.CI:
         b = await pyppeteer.connect({
             'browserWSEndpoint': 'ws://browser:3000',
-            'args': ['--disable-dev-shm-usage'],
         })
     else:
         b = await pyppeteer.launch()
     yield b
-    await b.disconnect()
+    await b.close()
 
 
 @pytest.fixture
