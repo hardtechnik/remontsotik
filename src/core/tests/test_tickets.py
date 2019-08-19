@@ -76,6 +76,27 @@ async def test_create_ticket(page, absolute_url, statuses, settings):
     assert ticket.status.description in mail_to_user.body
 
 
+@pytest.mark.asyncio
+@pytest.mark.django_db
+async def test_search_ticket(page, absolute_url, ticket):
+    await page.goto(absolute_url('create_ticket'))
+    await fill_input(page, '#search', ticket.number)
+    await gather(
+        page.waitForNavigation(),
+        page.click('.Search--btn'),
+    )
+    await gather(
+        page.waitForFunction(
+            f'document.querySelector("body").innerText'
+            f'.includes("{ticket.number}")',
+        ),
+        page.waitForFunction(
+            f'document.querySelector("body").innerText'
+            f'.includes("{ticket.status.description}")',
+        ),
+    )
+
+
 @pytest.mark.django_db
 def test_ticket_detail_view(client, ticket):
     r = client.get(reverse('ticket_detail', kwargs={'number': ticket.number}))
@@ -103,17 +124,6 @@ def test_email_is_sent_on_status_change(status_new):
     assert len(mail.outbox) == 2
     email = mail.outbox[1]
     assert 'foo' in email.body
-
-
-@pytest.mark.django_db
-def test_ticket_can_be_found(ticket, client):
-    query_string = urlencode({'number': ticket.number})
-    r = client.get(f'{reverse("ticket_search")}?{query_string}')
-    assert r.status_code == 200
-
-    content = r.content.decode()
-    assert ticket.number in content
-    assert ticket.status.description in content
 
 
 @pytest.mark.django_db
