@@ -1,0 +1,27 @@
+@include media-breakpoint-up(xs) {
+  .Search {
+    margin-top: 5px;
+    display: block;
+    width: 100%;
+  }
+
+  .Search--btn {
+    display: block;
+    margin-top: 10px;
+    width: 100%;
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .Search {
+    margin-top: 0;
+    display: inline;
+    width: auto;
+  }
+
+  .Search--btn {
+    display: inline;
+    width: auto;
+    margin-top: 0;
+  }
+}

@@ -18,26 +18,40 @@
   {% block styles %}{% endblock %}
 </head>
 <body>
-  <nav class="navbar navbar-dark bg-dark d-flex justify-content-center">
-    <a class="navbar-brand" href="{{ url('create_ticket') }}">
-      <img src="{{ static('img/logo.svg') }}" class="logo" alt="">
-    </a>
+  <nav class="navbar navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="{{ url('create_ticket') }}">
+        <img src="{{ static('img/logo.svg') }}"
+             class="logo d-inline-block align-center" alt="">
+        РемонтСотик
+      </a>
+      <div class="Search">
+        <form class="form-inline" method="GET" action="{{ url('ticket_search') }}">
+          <input class="form-control form-control-sm" type="search"
+                 name="number" placeholder="Поиск по номеру заявки"
+                 aria-label="Поиск по номеру заявки">
+          <button class="btn btn-sm btn-outline-primary Search--btn" type="submit">
+            Найти
+          </button>
+        </form>
+      </div>
+    </div>
   </nav>
-  <div class="container">
+  <div class="container content">
   {% block content %}{% endblock %}
   </div>
 {% block scripts %}{% endblock %}
-<script type="text/javascript" >
-   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+<script type="text/javascript">
+  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+  m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+  (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-   ym(54843271, "init", {
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true,
-        webvisor:true
-   });
+  ym(54843271, "init", {
+       clickmap:true,
+       trackLinks:true,
+       accurateTrackBounce:true,
+       webvisor:true
+  });
 </script>
 <noscript>
   <div>

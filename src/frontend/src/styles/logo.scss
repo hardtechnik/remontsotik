@@ -1,17 +1,4 @@
 .logo {
-  width: 128px;
-  height: 128px;
-}
-
-@include media-breakpoint-up(xs) {
-  .logo {
-    width: 96px;
-    height: 96px;
-  }
-}
-@include media-breakpoint-up(md) {
-  .logo {
-    width: 128px;
-    height: 128px;
-  }
+  width: 50px;
+  height: 50px;
 }

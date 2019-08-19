@@ -1,6 +1,6 @@
 from asyncio import gather
 from unittest.mock import patch
-from urllib.parse import urljoin
+from urllib.parse import urlencode, urljoin
 
 from django.core import mail
 from django.urls import reverse
@@ -12,6 +12,11 @@ from core.models import Status, Ticket
 async def fill_input(page, selector, value):
     field = await page.querySelector(selector)
     await field.type(value)
+
+
+@pytest.fixture
+def ticket(status_new):
+    yield Ticket.objects.create(status=status_new, phone_number='9192223322')
 
 
 @pytest.mark.asyncio
@@ -72,8 +77,7 @@ async def test_create_ticket(page, absolute_url, statuses, settings):
 
 
 @pytest.mark.django_db
-def test_ticket_detail_view(client, status_new):
-    ticket = Ticket.objects.create(status=status_new, phone_number='9192223322')
+def test_ticket_detail_view(client, ticket):
     r = client.get(reverse('ticket_detail', kwargs={'number': ticket.number}))
     assert r.status_code == 200
     assert ticket.number in r.content.decode()
@@ -99,3 +103,21 @@ def test_email_is_sent_on_status_change(status_new):
     assert len(mail.outbox) == 2
     email = mail.outbox[1]
     assert 'foo' in email.body
+
+
+@pytest.mark.django_db
+def test_ticket_can_be_found(ticket, client):
+    query_string = urlencode({'number': ticket.number})
+    r = client.get(f'{reverse("ticket_search")}?{query_string}')
+    assert r.status_code == 200
+
+    content = r.content.decode()
+    assert ticket.number in content
+    assert ticket.status.description in content
+
+
+@pytest.mark.django_db
+def test_404_for_unknown_ticket(ticket, client):
+    query_string = urlencode({'number': 42})
+    r = client.get(f'{reverse("ticket_search")}?{query_string}')
+    assert r.status_code == 404

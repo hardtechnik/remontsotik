@@ -3,7 +3,7 @@ import uuid
 
 from django.conf import settings
 from django.http import JsonResponse
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.views.decorators.http import require_POST
 from django.views.generic import CreateView, DetailView
 
@@ -29,6 +29,14 @@ class TicketDetailView(DetailView):
     context_object_name = 'ticket'
     slug_url_kwarg = 'number'
     slug_field = 'number'
+
+    def get_object(self, queryset=None):
+        if self.kwargs:
+            return super().get_object(queryset)
+        number = self.request.GET.get('number')
+        if queryset is None:
+            queryset = self.get_queryset()
+        return get_object_or_404(queryset, number=number)
 
 
 @require_POST
