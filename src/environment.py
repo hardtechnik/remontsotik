@@ -27,5 +27,6 @@ def environment(**options):
         'inline': inline,
         'absolute_url': absolute_url,
         'url': reverse,
+        'DEBUG': settings.DEBUG,
     })
     return env
