@@ -14,7 +14,9 @@
   <meta property="og:url" content="{{ request.build_absolute_uri() }}" />
   <meta name="yandex-verification" content="fcb4d93e3e2e0dae" />
 
-  <title>Ремонт телефонов</title>
+  <title>РемонтСотик</title>
+  <meta name="Description" content="Ремонт телефонов, планшетов, ноутбуков в г.Казани" />
+
   <script src="{{ static('bundle.js') }}"></script>
   <style>
     body {
@@ -55,9 +57,22 @@
   <footer class="footer mt-auto py-4">
     <div class="container">
       <div class="row">
-        <div class="col-12 col-md">
-          <small class="d-block text-muted">© 2019 Ремонт Сотик</small>
+        <div class="col-12 col-md text-muted">
+          <div itemscope itemtype="http://schema.org/LocalBusiness">
+            <small itemprop="name">© 2019 РемонтСотик</small>
+            <time
+              itemprop="openingHours"
+              datetime="Tu,We,Th,Fr,Sa,Su 10:00−20:00">
+            </time>
+            <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+              <small itemprop="streetAddress">Салиха Батыева, 21</small>
+              <small itemprop="postalCode">420129</small>
+              <small itemprop="addressLocality">Казань</small>
+            </div>
+            <small itemprop="telephone">+7 987 269–42–12</small>
+          </div>
         </div>
+
       </div>
     </div>
   </footer>
