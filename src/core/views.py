@@ -48,6 +48,6 @@ def sign_file(request):
     signed_data = s3.generate_presigned_post(
         Bucket=settings.PRIVATE_BUCKET,
         Key=key,
-        ExpiresIn=60 * 60,
+        ExpiresIn=60*60,
     )
     return JsonResponse(signed_data)

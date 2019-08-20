@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru">
+<html class="h-100" lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport"
@@ -15,31 +15,51 @@
 
   <title>Ремонт телефонов</title>
   <script src="{{ static('bundle.js') }}"></script>
+  <style>
+    body {
+      background-image: url("{{ static('img/bg.png') }}");
+      background-size: 512px;
+      background-repeat: repeat;
+    }
+  </style>
   {% block styles %}{% endblock %}
 </head>
-<body>
-  <nav class="navbar navbar-dark bg-dark">
-    <div class="container">
-      <a class="navbar-brand" href="{{ url('create_ticket') }}">
-        <img src="{{ static('img/logo.svg') }}"
-             class="logo d-inline-block align-center" alt="">
-        РемонтСотик
-      </a>
-      <div class="Search">
-        <form class="form-inline" method="GET" action="{{ url('ticket_search') }}">
-          <input id="search" class="form-control form-control-sm" type="search"
-                 name="number" placeholder="Поиск по номеру заявки"
-                 aria-label="Поиск по номеру заявки">
-          <button class="btn btn-sm btn-outline-primary Search--btn" type="submit">
-            Найти
-          </button>
-        </form>
+<body class="d-flex flex-column h-100">
+  <main role="main" class="flex-shrink-0">
+    <nav class="navbar navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="{{ url('create_ticket') }}">
+          <img src="{{ static('img/logo.svg') }}"
+               class="logo d-inline-block align-center" alt="">
+          РемонтСотик
+        </a>
+        <div class="Search">
+          <form class="form-inline" method="GET" action="{{ url('ticket_search') }}">
+            <input id="search" class="form-control form-control-sm" type="search"
+                   name="number" placeholder="Поиск по номеру заявки"
+                   aria-label="Поиск по номеру заявки">
+            <button class="btn btn-sm btn-outline-primary Search--btn" type="submit">
+              Найти
+            </button>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <div class="container page">
+      <div class="content">
+        {% block content %}{% endblock %}
       </div>
     </div>
-  </nav>
-  <div class="container content">
-  {% block content %}{% endblock %}
-  </div>
+  </main>
+  <footer class="footer mt-auto py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-md">
+          <small class="d-block text-muted">© 2019 Ремонт Сотик</small>
+        </div>
+      </div>
+    </div>
+  </footer>
 {% block scripts %}{% endblock %}
 {% if not DEBUG %}
 <script type="text/javascript">

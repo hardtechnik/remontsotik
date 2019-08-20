@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h3>Заявка №{{ ticket.number }}: {{ ticket.status }}</h3>
-  <hr>
-  <p>
-    {{ ticket.status.description }} <br>
-    {% with link=request.build_absolute_uri() %}
-      Вы всегда можете проверить состояние вашей заявки по ссылке <a href="{{ link }}">{{ link }}</a>
-    {% endwith %}
-  </p>
+  <div class="row">
+    <div class="offset-lg-3 col-lg-6">
+      <h3>Заявка №{{ ticket.number }}: {{ ticket.status }}</h3>
+      <hr>
+      <p>
+        {{ ticket.status.description }} <br>
+        {% with link=request.build_absolute_uri() %}
+          Вы всегда можете проверить состояние вашей заявки по ссылке <a href="{{ link }}">{{ link }}</a>
+        {% endwith %}
+      </p>
+    </div>
+  </div>
 {% endblock %}

@@ -20,6 +20,8 @@
 @import "logo";
 @import "file-uploader";
 @import "search";
+@import "content";
+@import "footer";
 
 .no-arrows {
   -moz-appearance:textfield;
@@ -28,8 +30,4 @@
     -webkit-appearance: none;
     margin: 0;
   }
-}
-
-.content {
-  margin-top: 30px;
 }
