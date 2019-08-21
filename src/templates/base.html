@@ -13,9 +13,9 @@
   <meta property="og:content" content="text/html">
   <meta property="og:url" content="{{ request.build_absolute_uri() }}" />
   <meta name="yandex-verification" content="fcb4d93e3e2e0dae" />
+  <meta name="Description" content="Ремонт телефонов, планшетов, ноутбуков в г.Казани" />
 
   <title>РемонтСотик</title>
-  <meta name="Description" content="Ремонт телефонов, планшетов, ноутбуков в г.Казани" />
 
   <script src="{{ static('bundle.js') }}"></script>
   <style>
@@ -39,12 +39,12 @@
             <span class="brand-description">Сервисный центр, г.Казань</span>
           </div>
         </a>
-        <div class="Search">
+        <div class="search">
           <form class="form-inline" method="GET" action="{{ url('ticket_search') }}">
             <input id="search" class="form-control form-control-sm" type="search"
                    name="number" placeholder="Поиск по номеру заявки"
                    aria-label="Поиск по номеру заявки">
-            <button class="btn btn-sm btn-outline-primary Search--btn" type="submit">
+            <button class="btn btn-sm btn-outline-primary search-button" type="submit">
               Найти
             </button>
           </form>
