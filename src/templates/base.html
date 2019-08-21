@@ -31,10 +31,13 @@
   <main role="main" class="flex-shrink-0">
     <nav class="navbar navbar-dark bg-dark">
       <div class="container">
-        <a class="navbar-brand" href="{{ url('create_ticket') }}">
+        <a class="navbar-brand d-flex align-items-center" href="{{ url('create_ticket') }}">
           <img src="{{ static('img/logo.svg') }}"
                class="logo d-inline-block align-center" alt="">
-          Ремонт Сотик
+          <div class="brand">
+            <span class="brand-title">Ремонт Сотик</span>
+            <span class="brand-description">Сервисный центр, г.Казань</span>
+          </div>
         </a>
         <div class="Search">
           <form class="form-inline" method="GET" action="{{ url('ticket_search') }}">

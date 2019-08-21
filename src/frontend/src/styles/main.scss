@@ -17,11 +17,12 @@
 @import "~bootstrap/scss/type";
 @import "~bootstrap/scss/utilities";
 
-@import "logo";
-@import "file-uploader";
-@import "search";
+@import "brand";
 @import "content";
+@import "file-uploader";
 @import "footer";
+@import "logo";
+@import "search";
 
 .no-arrows {
   -moz-appearance:textfield;
