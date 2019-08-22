@@ -4,13 +4,13 @@ import uuid
 from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
-from django.views.decorators.http import require_POST, require_GET
+from django.views.decorators.http import require_GET, require_POST
 from django.views.generic import CreateView, DetailView
 
+from . import fonoapi
 from .forms import TicketForm
 from .models import Ticket
 from .s3 import client as s3_client
-from . import fonoapi
 
 
 class CreateTicketView(CreateView):
