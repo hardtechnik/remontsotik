@@ -1,0 +1,25 @@
+.autocomplete {
+  position: relative;
+}
+
+.autocomplete-list {
+  background-color: #fff;
+  border: 1px solid $border-color;
+  list-style: none;
+  max-height: calc(#{$input-height}*5);
+  overflow-y: auto;
+  padding-left: 0;
+  position: absolute;
+  width: 100%;
+}
+
+.autocomplete-list-item {
+  height: $input-height;
+  line-height: $input-height;
+  padding-left: 15px;
+
+  &:hover {
+    cursor: pointer;
+    background-color: lighten($primary, 40%);
+  }
+}

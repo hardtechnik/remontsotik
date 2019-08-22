@@ -19,6 +19,17 @@ DEBUG = False
 DOMAIN = os.getenv('DOMAIN')
 ALLOWED_HOSTS = [DOMAIN, f'www.{DOMAIN}']
 
+MIDDLEWARE = [
+    'core.middleware.security_headers',
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -74,3 +85,5 @@ CSRF_COOKIE_SECURE = True
 
 CELERY_BROKER_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}/2'
 CELERY_TASK_ALWAYS_EAGER = False
+
+FONOAPI_TOKEN = os.getenv('FONOAPI_TOKEN')

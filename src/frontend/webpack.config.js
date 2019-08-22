@@ -8,6 +8,7 @@ module.exports = {
   entry: {
     'tickets.js': './src/js/tickets/index.js',
     'bundle.js': './src/main.js',
+    'phone.js': './src/js/react/PhoneField.jsx',
   },
   output: {
     path: DIST_DIR,
@@ -26,6 +27,13 @@ module.exports = {
            'postcss-loader',
            'sass-loader'
          ],
+      },
+      {
+        test: /\.jsx$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader"
+        },
       },
     ],
   },

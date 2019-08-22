@@ -2,6 +2,7 @@
 
 {% block scripts %}
   <script src="{{ static('tickets.js') }}"></script>
+  <script src="{{ static('phone.js') }}"></script>
 {% endblock %}
 
 {% block content %}
@@ -20,7 +21,7 @@
           Как мы можем к вам обращаться?
         </small>
       </div>
-      <div class="form-group">
+      <div class="form-group" id="phone">
         <label for="phone-model">Модель телефона:</label>
         <input type="text" class="form-control" id="phone-model"
                name="phone_model" aria-describedby="phone-model-help"

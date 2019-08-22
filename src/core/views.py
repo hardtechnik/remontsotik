@@ -4,12 +4,13 @@ import uuid
 from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_GET
 from django.views.generic import CreateView, DetailView
 
 from .forms import TicketForm
 from .models import Ticket
 from .s3 import client as s3_client
+from . import fonoapi
 
 
 class CreateTicketView(CreateView):
@@ -51,3 +52,15 @@ def sign_file(request):
         ExpiresIn=60*60,
     )
     return JsonResponse(signed_data)
+
+
+@require_GET
+def phone(request):
+    data = []
+    search = request.GET['name']
+    if search:
+        data = [
+            {'DeviceName': item['DeviceName']}
+            for item in fonoapi.get_device(search)[:10]
+        ]
+    return JsonResponse(data=data, safe=False)

@@ -28,7 +28,6 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'core.middleware.security_headers',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -134,3 +133,4 @@ CI = False
 S3_ENDPOINT = 'https://storage.yandexcloud.net'
 
 CELERY_TASK_ALWAYS_EAGER = True
+FONOAPI_TOKEN = ''

@@ -27,6 +27,7 @@ services:
       PRIVATE_BUCKET: ${PRIVATE_BUCKET}
       SECRET_KEY: ${SECRET_KEY}
       SENDGRID_API_KEY: ${SENDGRID_API_KEY}
+      FONOAPI_TOKEN: ${FONOAPI_TOKEN}
       DJANGO_SETTINGS_MODULE: phonerepair.config.prod
       REDIS_HOST: redis
       REDIS_PORT: 6379
