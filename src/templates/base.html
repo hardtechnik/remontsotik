@@ -18,9 +18,6 @@
   <title>РемонтСотик</title>
 
   <script type="text/javascript" src="https://vk.com/js/api/openapi.js?162"></script>
-  <script type="text/javascript">
-    VK.init({apiId: 7109440, onlyWidgets: true});
-  </script>
   <script src="{{ static('bundle.js') }}"></script>
   <style>
     body {
@@ -63,8 +60,8 @@
   </main>
   <footer class="footer mt-auto py-4">
     <div class="container">
-      <div class="row">
-        <div class="col-6 col-md text-muted">
+      <div class="row flex-column-reverse flex-md-row">
+        <div class="col-md-6 text-muted">
           <div itemscope itemtype="http://schema.org/LocalBusiness">
             <small itemprop="name">© 2019 РемонтСотик</small>
             <time
@@ -79,8 +76,11 @@
             <small itemprop="telephone">+7 987 269–42–12</small>
           </div>
         </div>
-        <div class="col-6 col-md">
-          <div id="vk_like"></div>
+        <div class="col-md-6">
+          <div id="vk_groups"></div>
+          <script type="text/javascript">
+            VK.Widgets.Group("vk_groups", {mode: 4, wide: 1, height: "400"}, 185262223);
+          </script>
         </div>
       </div>
     </div>
@@ -104,9 +104,6 @@
   </div>
 </noscript>
 {% endif %}
-<script type="text/javascript">
-  VK.Widgets.Like("vk_like", {type: "button"});
-</script>
 
 </body>
 </html>
