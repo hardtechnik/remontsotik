@@ -60,7 +60,7 @@
   <footer class="footer mt-auto py-4">
     <div class="container">
       <div class="row">
-        <div class="col-12 col-md text-muted">
+        <div class="col-6 col-md text-muted">
           <div itemscope itemtype="http://schema.org/LocalBusiness">
             <small itemprop="name">© 2019 РемонтСотик</small>
             <time
@@ -75,7 +75,9 @@
             <small itemprop="telephone">+7 987 269–42–12</small>
           </div>
         </div>
-
+        <div class="col-6 col-md">
+          <div id="vk_like"></div>
+        </div>
       </div>
     </div>
   </footer>
@@ -98,5 +100,12 @@
   </div>
 </noscript>
 {% endif %}
+
+<script type="text/javascript" src="https://vk.com/js/api/openapi.js?162"></script>
+<script type="text/javascript">
+  VK.init({apiId: 7109440, onlyWidgets: true});
+  VK.Widgets.Like("vk_like", {type: "button"});
+</script>
+
 </body>
 </html>
