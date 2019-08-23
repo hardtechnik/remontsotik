@@ -10,7 +10,7 @@ def security_headers(get_response):
             f'default-src ' \
             f'{settings.S3_ENDPOINT} ' \
             f'https://mc.yandex.ru ' \
-            f'https://vk.com' \
+            f'https://vk.com ' \
             f'\'self\' \'unsafe-inline\' data:'
         response['X-Content-Type-Options'] = 'nosniff'
         response['Referrer-Policy'] = 'no-referrer-when-downgrade'
