@@ -77,9 +77,21 @@
           </div>
         </div>
         <div class="col-md-6">
-          <div id="vk_groups"></div>
+          <div id="vk_widget">
+            <div id="vk_groups"></div>
+          </div>
           <script type="text/javascript">
-            VK.Widgets.Group("vk_groups", {mode: 4, wide: 1, height: "400"}, 185262223);
+            function VK_Widget_Init(){
+               var getWidth = document.getElementById("vk_widget").clientWidth;
+               document.getElementById('vk_widget').innerHTML = '<div id="vk_groups"></div>';
+               VK.Widgets.Group(
+                   "vk_groups",
+                   {mode: 4, width: getWidth, height: "400"},
+                   185262223,
+               );
+             }
+             window.addEventListener('load', VK_Widget_Init, false);
+             window.addEventListener('resize', VK_Widget_Init, false);
           </script>
         </div>
       </div>
