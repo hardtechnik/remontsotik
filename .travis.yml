@@ -88,6 +88,7 @@ jobs:
           -d
         - tar xvf keys.tar
         - docker pull $IMAGE
+        - docker pull $STATIC_IMAGE
       script:
         - set -e
         - |
