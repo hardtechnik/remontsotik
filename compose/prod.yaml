@@ -78,7 +78,7 @@ services:
       - 80:80
     volumes:
       - /home/hardtechnik/config:/config
-      - static:/static
+      - static:/var/www/static
     restart: unless-stopped
     deploy:
       mode: global
@@ -93,6 +93,9 @@ services:
     restart: "no"
     volumes:
       - static:/static
+    deploy:
+      mode: global
+      failure_action: continue
 
 volumes:
   static:
