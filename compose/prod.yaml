@@ -95,7 +95,8 @@ services:
       - static:/static
     deploy:
       mode: global
-      failure_action: continue
+      update_config:
+        failure_action: continue
 
 volumes:
   static:
