@@ -52,6 +52,7 @@ jobs:
       install: pip install --user awscli
       before_script:
         - docker pull $IMAGE
+        - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       script:
         - set -e
         - cd src/frontend
@@ -62,10 +63,12 @@ jobs:
             -v $PWD/dist:/src/frontend/dist \
             -v $PWD/static-ready:/static \
             $IMAGE ./manage.py collectstatic --noinput
-        - |
-          aws --endpoint-url=https://storage.yandexcloud.net s3 cp \
-            --recursive ./static-ready $STATIC_BUCKET \
-            --cache-control 'public,max-age=600'
+        - cd ../..
+        - docker build -f Dockerfile_static . -t $STATIC_IMAGE
+        - docker push $STATIC_IMAGE
+#          aws --endpoint-url=https://storage.yandexcloud.net s3 cp \
+#            --recursive ./static-ready $STATIC_BUCKET \
+#            --cache-control 'public,max-age=600'
 
     - stage: deploy
       name: Update Services

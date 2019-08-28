@@ -78,6 +78,7 @@ services:
       - 80:80
     volumes:
       - /home/hardtechnik/config:/config
+      - static:/static
     restart: unless-stopped
     deploy:
       mode: global
@@ -86,3 +87,12 @@ services:
     image: library/redis:5-alpine
     deploy:
       mode: global
+
+  static:
+    image: ${STATIC_IMAGE}
+    restart: no
+    volumes:
+      - static:/static
+
+volumes:
+  static:

@@ -1,0 +1,9 @@
+FROM scratch
+
+ADD noop /noop
+
+ADD src/frontend/static-ready /static
+
+VOLUME /static
+
+CMD /noop
