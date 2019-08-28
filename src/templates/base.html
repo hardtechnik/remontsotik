@@ -77,10 +77,21 @@
           </div>
         </div>
         <div class="col-md-6">
-          <div id="vk_widget">
-            <div id="vk_groups"></div>
-          </div>
+          <div id="vk_widget"></div>
           <script type="text/javascript">
+            function debounce(f, ms) {
+              let isCooldown = false;
+              let handle;
+              return function() {
+                if (isCooldown) return;
+                isCooldown = true;
+                clearTimeout(handle);
+                handle = setTimeout(() => {
+                  isCooldown = false;
+                  f.apply(this, arguments);
+                }, ms);
+              };
+            }
             function VK_Widget_Init(){
                var getWidth = document.getElementById("vk_widget").clientWidth;
                document.getElementById('vk_widget').innerHTML = '<div id="vk_groups"></div>';
@@ -91,7 +102,7 @@
                );
              }
              window.addEventListener('load', VK_Widget_Init, false);
-             window.addEventListener('resize', VK_Widget_Init, false);
+             window.addEventListener('resize', debounce(VK_Widget_Init, 500), false);
           </script>
         </div>
       </div>
