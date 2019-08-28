@@ -97,5 +97,5 @@ jobs:
         - docker stack deploy --prune --compose-file compose/prod.yaml phonerepair
         - docker service update phonerepair_server --image $IMAGE
         - docker service update phonerepair_worker --image $IMAGE
-        - docker service update phonerepair_static --image $STATIC_IMAGE --no-healthcheck
+        - docker service update letsencrypt --force
         - docker system prune -f

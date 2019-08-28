@@ -81,7 +81,7 @@ services:
       - static:/var/www/static
     restart: unless-stopped
     deploy:
-      mode: global
+      replicas: 2
 
   redis:
     image: library/redis:5-alpine
