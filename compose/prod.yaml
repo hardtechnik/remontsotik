@@ -90,7 +90,7 @@ services:
 
   static:
     image: ${STATIC_IMAGE}
-    restart: no
+    restart: "no"
     volumes:
       - static:/static
 
