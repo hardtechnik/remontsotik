@@ -100,3 +100,4 @@ services:
 
 volumes:
   static:
+    external: yes
