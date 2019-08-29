@@ -83,7 +83,7 @@ async def test_search_ticket(page, absolute_url, ticket):
     await fill_input(page, '#search', ticket.number)
     await gather(
         page.waitForNavigation(),
-        page.click('.search-button'),
+        page.click('#search-button'),
     )
     await gather(
         page.waitForFunction(
