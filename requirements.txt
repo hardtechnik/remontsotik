@@ -1,9 +1,9 @@
 django==2.2.4
-pytest==5.1.0
+pytest==5.1.2
 pytest-django==3.5.1
 psycopg2-binary==2.8.3
 django-anymail==6.1.0
-boto3==1.9.211
+boto3==1.9.220
 pyyaml==5.1.2
 pytest-asyncio==0.10.0
 pyppeteer==0.0.25
@@ -11,5 +11,5 @@ django-redis-cache==2.0.0
 hiredis==1.0.0
 jinja2==2.10.1
 uwsgi==2.0.18
-sentry-sdk==0.11.1
+sentry-sdk==0.11.2
 celery==4.3.0
