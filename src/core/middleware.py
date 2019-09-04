@@ -10,7 +10,9 @@ def security_headers(get_response):
             f'default-src ' \
             f'{settings.S3_ENDPOINT} ' \
             f'https://mc.yandex.ru ' \
+            f'https://mc.yandex.md ' \
             f'https://www.google.com ' \
+            f'https://www.gstatic.com ' \
             f'https://vk.com ' \
             f'\'self\' \'unsafe-inline\' data:'
         response['X-Content-Type-Options'] = 'nosniff'
