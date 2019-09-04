@@ -1,5 +1,6 @@
 import posixpath
 import uuid
+from urllib.parse import urlparse
 
 from django.conf import settings
 from django.http import JsonResponse
@@ -20,7 +21,8 @@ class CreateTicketView(CreateView):
     def form_valid(self, form):
         ticket = form.save()
         for url in self.request.POST.getlist('images'):
-            ticket.images.create(url=url)
+            if url and not urlparse(url).netloc:
+                ticket.images.create(url=url)
         return redirect(ticket.get_absolute_url())
 
 

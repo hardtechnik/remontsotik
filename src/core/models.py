@@ -109,7 +109,7 @@ class Ticket(models.Model):
 
 
 class Image(models.Model):
-    url = models.URLField(verbose_name='Ссылка')
+    url = models.CharField(verbose_name='Ссылка', max_length=200)
     ticket = models.ForeignKey(
         Ticket,
         related_name='images',
