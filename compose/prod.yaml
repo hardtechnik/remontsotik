@@ -29,6 +29,8 @@ services:
       SENDGRID_API_KEY: ${SENDGRID_API_KEY}
       FONOAPI_TOKEN: ${FONOAPI_TOKEN}
       DJANGO_SETTINGS_MODULE: phonerepair.config.prod
+      RECAPTCHA_PUBLIC_KEY: ${RECAPTCHA_PUBLIC_KEY}
+      RECAPTCHA_PRIVATE_KEY: ${RECAPTCHA_PRIVATE_KEY}
       REDIS_HOST: redis
       REDIS_PORT: 6379
       REDIS_CACHE_DB: 1
@@ -58,6 +60,8 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
       REDIS_CACHE_DB: 1
+      RECAPTCHA_PUBLIC_KEY: ${RECAPTCHA_PUBLIC_KEY}
+      RECAPTCHA_PRIVATE_KEY: ${RECAPTCHA_PRIVATE_KEY}
     command: celery -A phonerepair worker -l info
     deploy:
       replicas: 1

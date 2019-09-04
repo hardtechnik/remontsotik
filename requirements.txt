@@ -3,6 +3,7 @@ pytest==5.1.2
 pytest-django==3.5.1
 psycopg2-binary==2.8.3
 django-anymail==6.1.0
+django-recaptcha==2.0.5
 boto3==1.9.220
 pyyaml==5.1.2
 pytest-asyncio==0.10.0

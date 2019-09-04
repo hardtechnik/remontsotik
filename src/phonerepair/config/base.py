@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'anymail',
+    'captcha',
 
     'core.apps.CoreConfig',
 ]
@@ -134,3 +135,7 @@ S3_ENDPOINT = 'https://storage.yandexcloud.net'
 
 CELERY_TASK_ALWAYS_EAGER = True
 FONOAPI_TOKEN = ''
+
+RECAPTCHA_PUBLIC_KEY = os.getenv('RECAPTCHA_PUBLIC_KEY', '')
+RECAPTCHA_PRIVATE_KEY = os.getenv('RECAPTCHA_PRIVATE_KEY', '')
+RECAPTCHA_REQUIRED_SCORE = 0.85
